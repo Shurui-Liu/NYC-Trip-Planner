@@ -15,20 +15,6 @@ def path_planner(graph, attractions, starting_point, ending_point):
     """
     return
 
-def path_planner_cycle(graph, attractions, starting_point) -> list:
-    """
-    Plans the path that costs the minimum distance to travel to all given attractions, 
-    from a starting point and back to the starting point.
-
-    Args:
-        graph (list): The graph of attractions and starting point, represented by adj matrix
-        attractions (list): List of places to visit in a day
-        starting_point (str): The place_id of starting location
-    Returns:
-        list: The optimal path to visit all attractions
-    """
-    
-
 def path_planner_cycle(graph, attractions, starting_point):
     """
     Plans the path that costs the minimum distance to travel to all given attractions, 
