@@ -7,44 +7,51 @@ api_key = "YOUR_API_KEY"
 # Initialize the Google Maps client
 gmaps = googlemaps.Client(key=api_key)
 
-def get_distance(origin: str, destination: str, gmaps) -> float:
+def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     """
-    gets the distance between two points (distance travelled from A to B).
-    Input:
-        - origin: str, address or place A
-        - destination: str, address or place B
-    Output:
-        - distance: float
+    Calculate the distance between two locations using the Google Maps Distance Matrix API.
+
+    Args:
+        gmaps (googlemaps.Client): Pre-initialized Google Maps client.
+        origin (str/tuple): The starting location (e.g., "New York, NY").
+        destination (str/tuple): The destination location (e.g., "Los Angeles, CA").
+        mode (str): Travel mode where possible options are "driving", "walking", "bicycling", "transit" (default: "driving").
+        unit (str): Unit of distance where options are "km" (default) or "meters".
+
+    Returns:
+        float: The distance between the two locations in the specified unit.
+        str: Error message if the calculation fails.
     """
+    # Validate mode input
+    valid_modes = ["driving", "walking", "bicycling", "transit"]
+    if mode not in valid_modes:
+        return f"Error: Invalid mode '{mode}'. Choose from {valid_modes}."
 
-    # Define the origin and destination
-    origin = "Address or place A"
-    destination = "Address or place B"
+    # Call the Distance Matrix API
+    try:
+        result = gmaps.distance_matrix(origins=origin,
+                                       destinations=destination,
+                                       mode=mode,
+                                       units='metric')
+    except Exception as e:
+        return f"Error: Unable to fetch data from Google Maps API. Details: {e}"
 
-    # Request directions
-    directions = gmaps.directions(
-        origin,              # Start location
-        destination,         # End location
-        mode="driving"       # Mode of transport: driving, walking, bicycling, transit
-    )
+    # Handle API-level errors
+    if result.get("status") != "OK":
+        return f"Error: API returned a status of {result.get('status')}."
 
-    # Extract the distance and duration from the response
-    if directions:
-        route = directions[0]['legs'][0]
-        distance = route['distance']['text']   # E.g., "5.6 km"
-        if not distance:
-            return None
-        if not " km" in distance:
-            if " m" in distance:
-                distance.replace(" m", "")
-                distance = float(distance) / 1000
+    # Extract the distance
+    try:
+        element = result["rows"][0]["elements"][0]
+        if element["status"] == "OK":
+            distance = element["distance"]["value"]  # Distance in meters
+            if unit == "km":
+                return distance  
+            elif unit == "meters":      # Return as meters
+                return distance / 1000  # Convert to kilometers
+            else:
+                return f"Error: Invalid unit '{unit}'. Choose 'km' or 'meters'."
         else:
-            distance.replace(" km", "")
-        try:
-            distance = float(distance)
-        except:
-            return None
-        return distance 
-    else:
-        return None
-    ###??? If None is returned, what should be done? what errors to catch?
+            return f"Error: Element status is {element['status']}."
+    except (IndexError, KeyError) as e:
+        return f"Error: Issue with API response. Details: {e}"\
