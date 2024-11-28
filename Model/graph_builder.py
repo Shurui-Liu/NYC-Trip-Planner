@@ -5,23 +5,14 @@ starting and ending points.
 Representation: Adjacency Matrix
 """
 
-def calculate_distance(point1, point2) -> float:
-    """
-    Calculates the distance between two points.
-    Input:
-        - point1: tuple (x, y)
-        - point2: tuple (x, y)
-    Output:
-        - distance: float
-    """
-    return
+from functions import calculate_distance
 
 def create_graph(vertices: list) -> list:
     """
     Creates a graph with starting point, ending point and attractions
-    Input: 
+    Args: 
         - Vertices: Starting point, Ending point, Attractions to visit
-    Output:
+    Returns:
         - Adjacency Matrix representing the graph
     """
     # initialize an empty adjacency matrix. where distances are 0.
