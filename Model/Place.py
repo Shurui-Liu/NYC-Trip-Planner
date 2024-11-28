@@ -2,6 +2,7 @@
 Defines a class for place.
 Attributes:
     - name: str, name of the place
+    - place_id: str, unique identifier of the place
     - location: tuple, (longitude, latitude) location of the place
 
 Methods:
