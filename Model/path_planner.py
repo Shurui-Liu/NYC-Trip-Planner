@@ -13,7 +13,11 @@ def path_planner(graph, attractions, starting_point, ending_point):
     Returns:
         list: The optimal path to visit all attractions
     """
-    return
+    if starting_point == ending_point:
+        return path_planner_cycle(graph, attractions, starting_point)
+    else:
+        return path_planner_non_cycle(graph, starting_point, ending_point)
+
 
 def path_planner_cycle(graph, attractions, starting_point):
     """
@@ -102,4 +106,4 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
         return best
 
     optimized_path = two_opt(path)
-    return calculate_cost(optimized_path), optimized_path
+    return optimized_path
