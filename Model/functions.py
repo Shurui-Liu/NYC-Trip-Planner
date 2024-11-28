@@ -13,8 +13,8 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
 
     Args:
         gmaps (googlemaps.Client): Pre-initialized Google Maps client.
-        origin (str/tuple): The starting location (e.g., "New York, NY").
-        destination (str/tuple): The destination location (e.g., "Los Angeles, CA").
+        origin (str/tuple): The starting location, by place_id
+        destination (str/tuple): The destination location, by place_id
         mode (str): Travel mode where possible options are "driving", "walking", "bicycling", "transit" (default: "driving").
         unit (str): Unit of distance where options are "km" (default) or "meters".
 
