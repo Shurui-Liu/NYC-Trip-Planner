@@ -37,6 +37,12 @@ def path_planner_cycle(graph, attractions, starting_point):
 
     Time complexity: O(n!) where n is the number of attractions.
     """
+    if not attractions:
+        return [starting_point]
+    if len(attractions) == 1:
+        return [starting_point] + attractions + [starting_point]
+    if len(attractions) > 10:
+        raise ValueError("The number of attractions should be less than 10.")
     # Ensure the starting point is part of attractions
     places = [starting_point] + attractions
     
@@ -69,6 +75,11 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
     Returns:
         list: The optimal path to visit all attractions.
     """
+    if len(graph) < 1:
+        return [starting_point, ending_point]
+    if len(graph) == 1:
+        return [starting_point, graph[0], ending_point]
+    
     number_of_places = len(graph)
 
     # Step 1: Nearest Neighbor Heuristic
