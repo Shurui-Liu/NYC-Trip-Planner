@@ -21,13 +21,46 @@ def create_dictionary_by_time_length(attractions_by_place_id: dict) -> dict:
         attractions_by_time_length[attraction_place_id] = time_length
     return attractions_by_time_length
 
-def group_attractions_to_days(day_length, attractions_by_place_id: dict):
+def create_new_day(day_attractions: list, day_time_left: list, max_day_time: float) -> None:
+    """
+    Helper function for group_attractions_to_days that creates a new day.
+    Args:
+        - day_attractions (list): 
+          a list of lists, each list contains attractions for a day
+        - day_time_left (list):
+            a list of time left in each day
+        - max_day_time (float):
+            The maximum number of hours a user can spend in a day
+    Returns:
+        - None, modifies the day_attractions and day_time_left lists
+    """
+    day_attractions.append([])
+    day_time_left.append(max_day_time)
+
+def group_attractions_to_days(max_day_time, attractions_by_place_id: dict):
     """
     This function groups the attractions into mimimum number of days.
+    This function adopts the greedy approach. Otherwise, DP would require O(4^n) time complexity.
+    Greedy heuristic: start with the longest one. 
     Args:
-        - day_length: The maximum number of hours a user can spend in a day
-        - attractions_by_place_id (dict): List of attractions to visit, by place_id
+        - max_day_time (float): The maximum number of hours a user can spend in a day
+        - attractions_by_place_id (dict): {place_id: time_length}
     """
+    """
+    1. Sort the attractions by time_length in descending order.
+    2. Initialize: the day_attractions list with an empty list.
+    3. 
+    """
+    attractions_by_place_sorted = sorted(attractions_by_place_id.items(), key=lambda x: x[1], reverse=True)
+    day_attractions = [] # a list of lists, each list contains attractions for a day
+    day_time_left = [] # a list of time left in each day
+    current_day = 0 # the current day's index in day_attractions
+    for attraction_id, time_length in attractions_by_place_sorted:
+        if day_attractions == []:
+            create_new_day(day_attractions)
+            
+        
+
 
     attractions_by_place_id = {}
         for attraction in attractions:
