@@ -9,6 +9,11 @@ def create_dictionary_by_time_length(attractions_by_place_id: dict) -> dict:
         - attractions_by_place_id (dict): List of attractions to visit, by place_id
     Returns:
         - attractions_by_time_spend (dict): Dictionary with place_id as key and time_length as value
+    Examples:
+    >>> create_dictionary_by_time_length({"num_1": {"name": "Statue of Liberty", "time_length": 2}})
+    {"num_1": 2}
+    >>> create_dictionary_by_time_length({"num_1": {"name": "Statue of Liberty", "time_length": 2}, "num_2": {"name": "Central Park", "time_length": 3}})
+    {"num_1": 2, "num_2": 3}
     """
     attractions_by_time_length = {}
     for attraction_place_id in attractions_by_place_id.keys():
