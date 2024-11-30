@@ -46,6 +46,7 @@ def add_attraction_to_day(attraction_id: str, attractions_by_place_id: dict,
     day_attractions[day_index].append(attraction_id)
     day_time_left[day_index] -= attractions_by_place_id.get(attraction_id)
 
+
 def find_day_to_add_attraction(attraction_id: str, days_time_left: float, 
                                attractions_by_time_length: dict):
     """
@@ -82,15 +83,17 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
     day_time_left = [] # a list of time left in each day
     day_index = 0 # the current day's index in day_attractions
     for attraction_id, time_length in attractions_by_time_length_sorted:
+        # if no day exists yet
         if day_attractions == []:
             # updates the day_attractions and day_time_left lists, to add 1 day.
             create_new_day(day_attractions, day_time_left, max_day_time)
             add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
         else:
+            day_index = find_day_to_add_attraction(attraction_id, day_time_left, attractions_by_time_length)
             # if the new attraction can be added to an existing day:
-            if time_length <= day_time_left[day_index]:
-                day_attractions[day_index].append(attraction_id)
-                day_time_left[day_index] -= time_length
+            if day_index >= 0:
+                # add the attraction to the day
+                add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
             else:
                 create_new_day(day_attractions, day_time_left, max_day_time)
                 day_index += 1
