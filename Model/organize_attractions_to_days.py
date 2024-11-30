@@ -45,8 +45,30 @@ def add_attraction_to_day(attraction_id: str, attractions_by_place_id: dict,
     """
     day_attractions[day_index].append(attraction_id)
     day_time_left[day_index] -= attractions_by_place_id.get(attraction_id)
+
+def find_day_to_add_attraction(attraction_id: str, days_time_left: float, 
+                               attractions_by_time_length: dict):
+    """
+    This function finds the day to add the attraction to.
+    Args:
+        - attraction_id (str): The place_id of the attraction
+        - attractions_by_time_length (dict): {place_id: time_length}
+    Returns:
+        - int: The index of the day to add the attraction to
+          - -1: If the attraction cannot be added to any day
+
+    """
+    # iterate through the days time left list to
+    # find the first available day to add the attraction to
+    day_index = 0
+    while day_index < len(days_time_left):
+        if days_time_left[day_index] >= attractions_by_time_length.get(attraction_id):
+            return day_index
+        day_index += 1
+    return -1  
+
     
-def group_attractions_to_days(max_day_time, attractions_by_place_id: dict):
+def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
     """
     This function groups the attractions into mimimum number of days.
     This function adopts the greedy approach. Otherwise, DP would require O(4^n) time complexity.
@@ -55,41 +77,22 @@ def group_attractions_to_days(max_day_time, attractions_by_place_id: dict):
         - max_day_time (float): The maximum number of hours a user can spend in a day
         - attractions_by_place_id (dict): {place_id: time_length}
     """
-    """
-    1. Sort the attractions by time_length in descending order.
-    2. Initialize: the day_attractions list with an empty list.
-    3. 
-    """
-    attractions_by_place_sorted = sorted(attractions_by_place_id.items(), key=lambda x: x[1], reverse=True)
+    attractions_by_time_length_sorted = sorted(attractions_by_time_length.items(), key=lambda x: x[1], reverse=True)
     day_attractions = [] # a list of lists, each list contains attractions for a day
     day_time_left = [] # a list of time left in each day
-    current_day = 0 # the current day's index in day_attractions
-    for attraction_id, time_length in attractions_by_place_sorted:
+    day_index = 0 # the current day's index in day_attractions
+    for attraction_id, time_length in attractions_by_time_length_sorted:
         if day_attractions == []:
             # updates the day_attractions and day_time_left lists, to add 1 day.
             create_new_day(day_attractions, day_time_left, max_day_time)
-            day_attractions[-1].append(attraction_id)
-            day_time_left[-1] -= time_length
+            add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
         else:
             # if the new attraction can be added to an existing day:
-            if time_length <= day_time_left[current_day]:
-                day_attractions[current_day].append(attraction_id)
-                day_time_left[current_day] -= time_length
+            if time_length <= day_time_left[day_index]:
+                day_attractions[day_index].append(attraction_id)
+                day_time_left[day_index] -= time_length
             else:
                 create_new_day(day_attractions, day_time_left, max_day_time)
-                day_attractions[-1].append(attraction_id)
-                day_time_left[-1] -= time_length
-            
-        
-
-
-    attractions_by_place_id = {}
-        for attraction in attractions:
-            place_id = attraction.get_place_id()
-            attractions_by_place_id[place_id] = attraction.get_name()
-        return attractions_by_place_id
-    for attraction in attractions_by_place_id.keys():
-        if not isinstance(attraction, str):
-            raise TypeError("Attraction should be a string.")
-        
-    return
+                day_index += 1
+                add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, 
+                                      day_index, day_attractions, day_time_left)
