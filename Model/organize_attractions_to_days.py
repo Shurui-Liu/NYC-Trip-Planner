@@ -11,9 +11,9 @@ def create_dictionary_by_time_length(attractions_by_place_id: dict) -> dict:
         - attractions_by_time_spend (dict): Dictionary with place_id as key and time_length as value
     Examples:
     >>> create_dictionary_by_time_length({"num_1": {"name": "Statue of Liberty", "time_length": 2}})
-    {"num_1": 2}
+    {'num_1': 2}
     >>> create_dictionary_by_time_length({"num_1": {"name": "Statue of Liberty", "time_length": 2}, "num_2": {"name": "Central Park", "time_length": 3}})
-    {"num_1": 2, "num_2": 3}
+    {'num_1': 2, 'num_2': 3}
     """
     attractions_by_time_length = {}
     for attraction_place_id in attractions_by_place_id.keys():
@@ -33,6 +33,25 @@ def create_new_day(day_attractions: list, day_time_left: list, max_day_time: flo
             The maximum number of hours a user can spend in a day
     Returns:
         - None, modifies the day_attractions and day_time_left lists
+    
+    Examples:
+        >>> day_attractions = [['Attraction1'], ['Attraction2']]
+        >>> day_time_left = [5.0, 3.0]
+        >>> max_day_time = 8.0
+        >>> create_new_day(day_attractions, day_time_left, max_day_time)
+        >>> day_attractions
+        [['Attraction1'], ['Attraction2'], []]
+        >>> day_time_left
+        [5.0, 3.0, 8.0]
+
+        >>> day_attractions = []
+        >>> day_time_left = []
+        >>> max_day_time = 10.0
+        >>> create_new_day(day_attractions, day_time_left, max_day_time)
+        >>> day_attractions
+        [[]]
+        >>> day_time_left
+        [10.0]
     """
     day_attractions.append([])
     day_time_left.append(max_day_time)
@@ -99,3 +118,7 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
                 day_index += 1
                 add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, 
                                       day_index, day_attractions, day_time_left)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
