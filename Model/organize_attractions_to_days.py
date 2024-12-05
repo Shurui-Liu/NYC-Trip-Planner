@@ -61,7 +61,19 @@ def add_attraction_to_day(attraction_id: str, attractions_by_place_id: dict,
     """
     Helper function for group_attractions_to_days that adds an attraction to a day.
     It modifies the day_attractions and day_time_left lists.
+    Args:
+        - attraction_id (str): The place_id of the attraction
+        - attractions_by_place_id (dict): {place_id: time_length}
+        - day_index (int): The index of the day to add the attraction to
+        - day_attractions (list): 
+          a list of lists, each list contains attractions for a day
+        - day_time_left (list):
+            a list of time left in each day
+    Returns:
+        - None, modifies the day_attractions and day_time_left lists
     """
+    if day_index < 0 or day_index >= len(day_attractions):
+        raise ValueError("Invalid day index.")
     day_attractions[day_index].append(attraction_id)
     day_time_left[day_index] -= attractions_by_place_id.get(attraction_id)
 
@@ -76,7 +88,15 @@ def find_day_to_add_attraction(attraction_id: str, days_time_left: float,
     Returns:
         - int: The index of the day to add the attraction to
           - -1: If the attraction cannot be added to any day
-
+    Examples:
+        >>> days_time_left = [3.0, 2.0, 1.5]
+        >>> attractions_by_time_length = {'A1': 2.0, 'A2': 1.0, 'A3': 4.0}
+        >>> find_day_to_add_attraction('A1', days_time_left, attractions_by_time_length)
+        0
+        >>> find_day_to_add_attraction('A2', days_time_left, attractions_by_time_length)
+        0
+        >>> find_day_to_add_attraction('A3', days_time_left, attractions_by_time_length)
+        -1
     """
     # iterate through the days time left list to
     # find the first available day to add the attraction to
@@ -90,7 +110,7 @@ def find_day_to_add_attraction(attraction_id: str, days_time_left: float,
     
 def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
     """
-    This function groups the attractions into mimimum number of days.
+    This function groups the attractions into minimum number of days.
     This function adopts the greedy approach. Otherwise, DP would require O(4^n) time complexity.
     Greedy heuristic: start with the longest one. 
     Args:
