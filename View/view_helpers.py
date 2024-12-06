@@ -27,6 +27,6 @@ def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
         if data.get("candidates"):
             return data["candidates"][0]["place_id"]
         else:
-            return "Not Found"
+            raise ValueError(f"Error: Place does not exist: {attraction_name}")
     else:
-        return f"Error: {response.status_code}"
+        raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
