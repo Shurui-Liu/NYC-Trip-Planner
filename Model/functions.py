@@ -54,4 +54,4 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
         else:
             return f"Error: Element status is {element['status']}."
     except (IndexError, KeyError) as e:
-        return f"Error: Issue with API response. Details: {e}"\
+        return f"Error: Issue with API response. Details: {e}"
