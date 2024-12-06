@@ -116,12 +116,24 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
     Args:
         - max_day_time (float): The maximum number of hours a user can spend in a day
         - attractions_by_place_id (dict): {place_id: time_length}
+    Returns:
+        - grouped_attractions (list): A list of lists, each list contains attractions for a day
+    Example:
+        >>> max_day_time = 6.0
+        >>> attractions_by_time_length = {'A': 2.0, 'B': 3.0, 'C': 0.5}
+        >>> group_attractions_to_days(max_day_time, attractions_by_time_length)
+        [['B', 'C'], ['A']]
     """
+    if not attractions_by_time_length:
+        return []
     attractions_by_time_length_sorted = sorted(attractions_by_time_length.items(), key=lambda x: x[1], reverse=True)
     day_attractions = [] # a list of lists, each list contains attractions for a day
     day_time_left = [] # a list of time left in each day
     day_index = 0 # the current day's index in day_attractions
     for attraction_id, time_length in attractions_by_time_length_sorted:
+        # if the time length of any attraction exceeds the maximum day time
+        if time_length > max_day_time:
+            raise ValueError("The time length of an attraction cannot exceed the maximum day time.")
         # if no day exists yet
         if day_attractions == []:
             # updates the day_attractions and day_time_left lists, to add 1 day.
@@ -138,6 +150,7 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
                 day_index += 1
                 add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, 
                                       day_index, day_attractions, day_time_left)
+    return day_attractions
 
 if __name__ == "__main__":
     import doctest
