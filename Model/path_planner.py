@@ -101,7 +101,6 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
-        attractions (list): List of indices of places to visit in a day.
         starting_point (str): The place_id of the starting location.
         ending_point (str): The place_id of the ending location.
     
@@ -115,7 +114,7 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
     
     number_of_places = len(graph)
 
-    # Step 1: Nearest Neighbor Heuristic
+    # Start with the greedy approach, using Nearest Neighbor Heuristic
     path = [starting_point]
     visited = set(path)
     
@@ -130,7 +129,7 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
     if path[-1] != ending_point:
         path.append(ending_point)
 
-    # Step 2: 2-opt Optimization
+    # 2-opt Optimization to improve the path produced by the greedy solution
     def calculate_cost(path):
         return sum(graph[path[i]][path[i + 1]] for i in range(len(path) - 1))
 
