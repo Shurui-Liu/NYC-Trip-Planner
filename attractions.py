@@ -1,4 +1,4 @@
-attractions = {
+ATTRACTION = {
     "1": {
         "name": "Statue of Liberty",
         "time_length": 3,
