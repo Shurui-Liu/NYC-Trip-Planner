@@ -1,8 +1,24 @@
 """Takes inputs from user"""
 from view_helpers import attractions_name_to_id
 
+def get_max_daily_time() -> float:
+    """
+    Returns the maximum time a user want to spend in a day
+    """
+    while True:
+        max_daily_time = input("Enter the maximum time you can spend in a day (in hours): ")
+        try:
+            max_daily_time_float = float(max_daily_time)
+        except ValueError:
+            print("Error: Please enter a valid number")
+            continue
+        if max_daily_time_float <= 0 or max_daily_time_float > 24:
+            print("Error: Please enter a valid number between 0 and 24")
+            continue
+        return max_daily_time_float
 
-def get_attractions_dictionary(api_key) -> dict:
+
+def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
     """
     Returns a dictionary of attractions in form of {attraction_id: time_to_spend}
     """
@@ -19,6 +35,9 @@ def get_attractions_dictionary(api_key) -> dict:
             time_to_spend_float = float(time_to_spend)
         except ValueError:
             print("Error: Please enter a valid number")
+            continue
+        if time_to_spend_float > max_daily_time:
+            print("Error: Time to spend at an attraction cannot be more than the maximum daily time")
             continue
         attractions_info[attraction_id] = time_to_spend_float
         if input("Do you want to add more attractions? (y/n): ") == "n":
