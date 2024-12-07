@@ -28,7 +28,7 @@ def path_planner_cycle(graph, attractions, starting_point):
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
-        attractions (list): List of indices of places to visit in a day.
+        attractions (list): List of places (place_ids) to visit in a day.
         starting_point (int): The index of the starting location.
 
     Returns:
@@ -94,7 +94,7 @@ def path_planner_cycle(graph, attractions, starting_point):
     path.append(starting_point)
     return path[::-1]
 
-def path_planner_non_cycle(graph, starting_point, ending_point):
+def path_planner_non_cycle(graph, places, starting_point, ending_point):
     """
     Plans a near-optimal path of minimum distance to travel to all attractions,
     from a starting point to ending point.
@@ -106,21 +106,19 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
     
     Returns:
         list: The optimal path to visit all attractions.
-    """
-    if len(graph) < 1:
+    """  
+    number_of_places = len(places)
+    if number_of_places <= 2:
         return [starting_point, ending_point]
-    if len(graph) == 1:
-        return [starting_point, graph[0], ending_point]
-    
-    number_of_places = len(graph)
 
     # Start with the greedy approach, using Nearest Neighbor Heuristic
     path = [starting_point]
     visited = set(path)
     
-    # Find the nearest neighbor to the last visited city
+    # Find a path in greedy approach
     while len(path) < number_of_places and path[-1] != ending_point:
         last = path[-1]
+        # Find the nearest neighbor to the last visited place
         next_city = min((j for j in range(number_of_places) if j not in visited and j != last), 
                         key=lambda x: graph[last][x], default=ending_point)
         path.append(next_city)
