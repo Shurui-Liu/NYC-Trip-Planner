@@ -23,6 +23,7 @@ def path_planner(graph, attractions, starting_point, ending_point):
     else:
         return path_planner_non_cycle(graph, starting_point, ending_point)
 
+
 def path_planner_cycle(graph, attractions, starting_point):
     """
     Plans the path that costs the minimum distance to travel to all given attractions, 
