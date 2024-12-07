@@ -18,11 +18,13 @@ def path_planner(graph, attractions, starting_point, ending_point):
     else:
         return path_planner_non_cycle(graph, starting_point, ending_point)
 
-
 def path_planner_cycle(graph, attractions, starting_point):
     """
     Plans the path that costs the minimum distance to travel to all given attractions, 
     from a starting point and back to the starting point.
+
+    Uses the Held-Karp Algorithm for medium dataset. Time complexity: O(n^2 * 2^n)
+    Balances time complexity and optimality. 
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
@@ -31,35 +33,66 @@ def path_planner_cycle(graph, attractions, starting_point):
 
     Returns:
         list: The optimal path to visit all attractions and return to the start.
-
-    This is a brute-force solution for small graphs,
-    because users cannot visit more than 10 places in a day.
-
-    Time complexity: O(n!) where n is the number of attractions.
     """
     if not attractions:
         return [starting_point]
     if len(attractions) == 1:
         return [starting_point] + attractions + [starting_point]
-    if len(attractions) > 10:
-        raise ValueError("The number of attractions should be less than 10.")
-    # Ensure the starting point is part of attractions
-    places = [starting_point] + attractions
-    
-    # Generate all permutations of attractions except the starting point (fix start position)
-    min_path = []
-    min_distance = float('inf')
-    
-    # For each permutation of attractions
-    for perm in itertools.permutations(places[1:]):
-        current_path = [starting_point] + list(perm) + [starting_point]
-        current_distance = sum(graph[current_path[i]][current_path[i + 1]] for i in range(len(current_path) - 1))
-        
-        if current_distance < min_distance:
-            min_distance = current_distance
-            min_path = current_path
-    
-    return min_path
+    from itertools import combinations
+
+    # Number of attractions including the starting point
+    number_of_places = len(graph)
+
+    # Map attractions to a bitmask for DP
+    attractions_set = set(attractions)
+    all_places = [starting_point] + attractions
+    attraction_to_index = {node: i for i, node in enumerate(all_places)}
+    num_attractions = len(all_places)
+
+    # DP table: dp[mask][i] = minimum cost to visit all nodes in `mask` ending at node `i`
+    dp = [[float('inf')] * num_attractions for _ in range(1 << num_attractions)]
+    dp[1 << attraction_to_index[starting_point]][attraction_to_index[starting_point]] = 0
+
+    # Iterate over all subsets of attractions
+    for mask in range(1 << num_attractions):
+        for u in range(num_attractions):
+            if mask & (1 << u):  # u is in the current subset
+                for v in range(num_attractions):
+                    if not (mask & (1 << v)):  # v is not in the subset yet
+                        new_mask = mask | (1 << v)
+                        dp[new_mask][v] = min(
+                            dp[new_mask][v],
+                            dp[mask][u] + graph[all_places[u]][all_places[v]]
+                        )
+
+    # Find the minimum cost path that returns to the starting point
+    end_mask = (1 << num_attractions) - 1
+    min_cost = float('inf')
+    last_node = -1
+
+    for i in range(num_attractions):
+        cost = dp[end_mask][i] + graph[all_places[i]][starting_point]
+        if cost < min_cost:
+            min_cost = cost
+            last_node = i
+
+    # Reconstruct the optimal path
+    path = []
+    mask = end_mask
+    current = last_node
+
+    while mask:
+        path.append(all_places[current])
+        prev = -1
+        for i in range(num_attractions):
+            if mask & (1 << i) and dp[mask][current] == dp[mask ^ (1 << current)][i] + graph[all_places[i]][all_places[current]]:
+                prev = i
+                break
+        mask ^= (1 << current)
+        current = prev
+
+    path.append(starting_point)
+    return path[::-1]
 
 def path_planner_non_cycle(graph, starting_point, ending_point):
     """
