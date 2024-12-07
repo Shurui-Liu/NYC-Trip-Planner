@@ -1,5 +1,10 @@
-"""The algorithm for the path planner"""
-import itertools
+"""
+The algorithms for the path planner
+
+Part of the CS5800 final project
+Date created: Dec 1, 2024
+Author: Shurui Liu
+"""
 
 def path_planner(graph, attractions, starting_point, ending_point):
     """
