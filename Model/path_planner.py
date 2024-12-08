@@ -1,5 +1,10 @@
-"""The algorithm for the path planner"""
-import itertools
+"""
+The algorithms for the path planner
+
+Part of the CS5800 final project
+Date created: Dec 1, 2024
+Author: Shurui Liu
+"""
 
 def path_planner(graph, attractions, starting_point, ending_point):
     """
@@ -18,7 +23,8 @@ def path_planner(graph, attractions, starting_point, ending_point):
     else:
         return path_planner_non_cycle(graph, starting_point, ending_point)
 
-def path_planner_cycle(graph, attractions, starting_point):
+
+def path_planner_cycle(graph, places, starting_point):
     """
     Plans the path that costs the minimum distance to travel to all given attractions, 
     from a starting point and back to the starting point.
@@ -28,26 +34,21 @@ def path_planner_cycle(graph, attractions, starting_point):
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
-        attractions (list): List of indices of places to visit in a day.
+        places (list): List of places (place_ids) to visit in a day and the starting point.
         starting_point (int): The index of the starting location.
 
     Returns:
         list: The optimal path to visit all attractions and return to the start.
     """
-    if not attractions:
+    if len(places) == 1:
         return [starting_point]
-    if len(attractions) == 1:
-        return [starting_point] + attractions + [starting_point]
-    from itertools import combinations
 
     # Number of attractions including the starting point
     number_of_places = len(graph)
 
     # Map attractions to a bitmask for DP
-    attractions_set = set(attractions)
-    all_places = [starting_point] + attractions
-    attraction_to_index = {node: i for i, node in enumerate(all_places)}
-    num_attractions = len(all_places)
+    attraction_to_index = {node: i for i, node in enumerate(places)}
+    num_attractions = len(places)
 
     # DP table: dp[mask][i] = minimum cost to visit all nodes in `mask` ending at node `i`
     dp = [[float('inf')] * num_attractions for _ in range(1 << num_attractions)]
@@ -62,7 +63,7 @@ def path_planner_cycle(graph, attractions, starting_point):
                         new_mask = mask | (1 << v)
                         dp[new_mask][v] = min(
                             dp[new_mask][v],
-                            dp[mask][u] + graph[all_places[u]][all_places[v]]
+                            dp[mask][u] + graph[places[u]][places[v]]
                         )
 
     # Find the minimum cost path that returns to the starting point
@@ -71,7 +72,7 @@ def path_planner_cycle(graph, attractions, starting_point):
     last_node = -1
 
     for i in range(num_attractions):
-        cost = dp[end_mask][i] + graph[all_places[i]][starting_point]
+        cost = dp[end_mask][i] + graph[places[i]][starting_point]
         if cost < min_cost:
             min_cost = cost
             last_node = i
@@ -82,10 +83,10 @@ def path_planner_cycle(graph, attractions, starting_point):
     current = last_node
 
     while mask:
-        path.append(all_places[current])
+        path.append(places[current])
         prev = -1
         for i in range(num_attractions):
-            if mask & (1 << i) and dp[mask][current] == dp[mask ^ (1 << current)][i] + graph[all_places[i]][all_places[current]]:
+            if mask & (1 << i) and dp[mask][current] == dp[mask ^ (1 << current)][i] + graph[places[i]][places[current]]:
                 prev = i
                 break
         mask ^= (1 << current)
@@ -94,46 +95,59 @@ def path_planner_cycle(graph, attractions, starting_point):
     path.append(starting_point)
     return path[::-1]
 
-def path_planner_non_cycle(graph, starting_point, ending_point):
+def path_planner_non_cycle(graph, places, starting_point, ending_point):
     """
-    Plans a near-optimal path of minimum distance to travel to all attractions,
+    Plans an optimal path of minimum distance to travel to all attractions,
     from a starting point to ending point.
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
-        attractions (list): List of indices of places to visit in a day.
+        places (list): List of places to visit in a day, including the starting and ending points.
         starting_point (str): The place_id of the starting location.
         ending_point (str): The place_id of the ending location.
     
     Returns:
         list: The optimal path to visit all attractions.
-    """
-    if len(graph) < 1:
-        return [starting_point, ending_point]
-    if len(graph) == 1:
-        return [starting_point, graph[0], ending_point]
     
-    number_of_places = len(graph)
+    Examples:
+        >>> graph = [[0, 2, 3, 4], [2, 0, 5, 6], [3, 5, 0, 7], [4, 6, 7, 0]]
+        >>> places = ['A', 'B', 'C', 'D']
+        >>> starting_point = 'A'
+        >>> ending_point = 'D'
+        >>> path_planner_non_cycle(graph, places, starting_point, ending_point)
+        ['A', 'B', 'C', 'D']
+    """  
+    number_of_places = len(places)
+    if number_of_places <= 2:
+        return [starting_point, ending_point]
 
-    # Step 1: Nearest Neighbor Heuristic
-    path = [starting_point]
+    starting_index = places.index(starting_point)
+    ending_index = places.index(ending_point)
+    # Start with the greedy approach, using Nearest Neighbor Heuristic 
+    path = [starting_index] # a list of the indices of visited places in places
     visited = set(path)
     
-    # Find the nearest neighbor to the last visited city
-    while len(path) < number_of_places and path[-1] != ending_point:
-        last = path[-1]
-        next_city = min((j for j in range(number_of_places) if j not in visited and j != last), 
-                        key=lambda x: graph[last][x], default=ending_point)
+    # Find a path in greedy approach
+    while len(path) < number_of_places and path[-1] != ending_index:
+        last_index = path[-1]
+        # Find the nearest neighbor to the last visited place
+        next_city = min((j for j in range(number_of_places) if j not in visited and j != last_index), 
+                        key=lambda x: graph[last_index][x], default=ending_point)
         path.append(next_city)
         visited.add(next_city)
     
-    if path[-1] != ending_point:
-        path.append(ending_point)
+    if path[-1] != ending_index:
+        path.append(ending_index)
 
-    # Step 2: 2-opt Optimization
+    # 2-opt Optimization to improve the path produced by the greedy solution
+    # calculate the cost of the path
     def calculate_cost(path):
         return sum(graph[path[i]][path[i + 1]] for i in range(len(path) - 1))
 
+    # 2-opt algorithm
+    # by choosing two non-adjacent vertices and reversing the path between them
+    # 2-opt is not globally optimal either.
+    # I combined 2-opt with the nearest neighbor heuristic to balance optimality and time complexity
     def two_opt(path):
         best = path
         improved = True
@@ -150,4 +164,9 @@ def path_planner_non_cycle(graph, starting_point, ending_point):
         return best
 
     optimized_path = two_opt(path)
+    optimized_path = [places[i] for i in optimized_path]
     return optimized_path
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
