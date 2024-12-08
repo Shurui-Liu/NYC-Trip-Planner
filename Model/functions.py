@@ -44,11 +44,11 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     try:
         element = result["rows"][0]["elements"][0]
         if element["status"] == "OK":
-            distance = element["distance"]["value"]  # Distance in km
-            if unit == "km":
-                return distance  
-            elif unit == "meters":      # Return as meters
-                return distance * 1000  # Convert to meters
+            distance = element["distance"]["value"]  # Distance in meters
+            if unit == "meters":
+                return distance
+            elif unit == "km":      # Return as kilometers
+                return distance / 1000  # Convert to kilometers
             else:
                 return f"Error: Invalid unit '{unit}'. Choose 'km' or 'meters'."
         else:
