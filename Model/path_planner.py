@@ -24,7 +24,7 @@ def path_planner(graph, attractions, starting_point, ending_point):
         return path_planner_non_cycle(graph, starting_point, ending_point)
 
 
-def path_planner_cycle(graph, attractions, starting_point):
+def path_planner_cycle(graph, places, starting_point):
     """
     Plans the path that costs the minimum distance to travel to all given attractions, 
     from a starting point and back to the starting point.
@@ -34,26 +34,21 @@ def path_planner_cycle(graph, attractions, starting_point):
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
-        attractions (list): List of places (place_ids) to visit in a day.
+        places (list): List of places (place_ids) to visit in a day and the starting point.
         starting_point (int): The index of the starting location.
 
     Returns:
         list: The optimal path to visit all attractions and return to the start.
     """
-    if not attractions:
+    if len(places) == 1:
         return [starting_point]
-    if len(attractions) == 1:
-        return [starting_point] + attractions + [starting_point]
-    from itertools import combinations
 
     # Number of attractions including the starting point
     number_of_places = len(graph)
 
     # Map attractions to a bitmask for DP
-    attractions_set = set(attractions)
-    all_places = [starting_point] + attractions
-    attraction_to_index = {node: i for i, node in enumerate(all_places)}
-    num_attractions = len(all_places)
+    attraction_to_index = {node: i for i, node in enumerate(places)}
+    num_attractions = len(places)
 
     # DP table: dp[mask][i] = minimum cost to visit all nodes in `mask` ending at node `i`
     dp = [[float('inf')] * num_attractions for _ in range(1 << num_attractions)]
@@ -68,7 +63,7 @@ def path_planner_cycle(graph, attractions, starting_point):
                         new_mask = mask | (1 << v)
                         dp[new_mask][v] = min(
                             dp[new_mask][v],
-                            dp[mask][u] + graph[all_places[u]][all_places[v]]
+                            dp[mask][u] + graph[places[u]][places[v]]
                         )
 
     # Find the minimum cost path that returns to the starting point
@@ -107,6 +102,7 @@ def path_planner_non_cycle(graph, places, starting_point, ending_point):
 
     Args:
         graph (list of list): The graph represented as an adjacency matrix.
+        places (list): List of places to visit in a day, including the starting and ending points.
         starting_point (str): The place_id of the starting location.
         ending_point (str): The place_id of the ending location.
     
