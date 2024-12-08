@@ -161,7 +161,27 @@ def get_starting_or_ending_name(PLACE_API) -> str:
         except ValueError as e:
             print("Place not found. Please enter a valid place name.")
             continue
+
+def get_starting_and_ending_names() -> str:
+    """
+    Returns the name of the starting and ending points
+    """
+    starting_name = get_starting_or_ending_name() 
+    def get_start_end_same():
+        while True:
+            start_end_same = input("Do you want to end at the same place? (yes/no): ")
+            if start_end_same.lower() == "yes":
+                return True
+            elif start_end_same.lower() == "no":
+                return False
+            else:
+                print("Please enter a valid input: yes/no.")
     
+    if get_start_end_same():
+        ending_name = starting_name
+    else:  
+        ending_name = get_starting_or_ending_name()
+    return starting_name, ending_name
 
 def display_trip_plan(trip_plan: list) -> None:
     """
@@ -182,3 +202,5 @@ def display_trip_plan(trip_plan: list) -> None:
             place_name = view_helpers.attractions_id_to_name(
                 place_id, ATTRACTIONS)
             print(f"  - {place_name}")
+
+
