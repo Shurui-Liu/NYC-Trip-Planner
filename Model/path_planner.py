@@ -72,7 +72,7 @@ def path_planner_cycle(graph, places, starting_point):
     last_node = -1
 
     for i in range(num_attractions):
-        cost = dp[end_mask][i] + graph[all_places[i]][starting_point]
+        cost = dp[end_mask][i] + graph[places[i]][starting_point]
         if cost < min_cost:
             min_cost = cost
             last_node = i
@@ -83,10 +83,10 @@ def path_planner_cycle(graph, places, starting_point):
     current = last_node
 
     while mask:
-        path.append(all_places[current])
+        path.append(places[current])
         prev = -1
         for i in range(num_attractions):
-            if mask & (1 << i) and dp[mask][current] == dp[mask ^ (1 << current)][i] + graph[all_places[i]][all_places[current]]:
+            if mask & (1 << i) and dp[mask][current] == dp[mask ^ (1 << current)][i] + graph[places[i]][places[current]]:
                 prev = i
                 break
         mask ^= (1 << current)
