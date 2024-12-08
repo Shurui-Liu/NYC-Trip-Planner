@@ -2,6 +2,23 @@
 from view_helpers import attractions_name_to_id
 from attractions import ATTRACTIONS
 
+def display_welcome_message() -> None:
+    """
+    Displays the welcome message
+    """
+    print("Welcome to the Trip Planner!")
+    print("This program will help you plan your trip in New York City.")
+    print("Let's get started!")
+
+def display_attractions_by_category(attractions_by_category: dict) -> None:
+    """
+    Displays the attractions by category
+    """
+    for category, attractions in attractions_by_category.items():
+        print(f"Category: {category}")
+        for attraction in attractions:
+            print(f"  - {attraction}")
+
 def get_max_daily_time() -> float:
     """
     Returns the maximum time a user want to spend in a day
