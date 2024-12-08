@@ -55,3 +55,29 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
             return f"Error: Element status is {element['status']}."
     except (IndexError, KeyError) as e:
         return f"Error: Issue with API response. Details: {e}"
+
+def get_category_list(ATTRACTIONS: dict) -> list:
+    """
+    Returns a list of unique categories from the ATTRACTIONS dictionary.
+
+    Args:
+        ATTRACTIONS (dict): Dictionary of attractions with category as key.
+
+    Returns:
+        list: List of unique categories.
+    """
+    return list(ATTRACTIONS.keys())
+
+
+def get_attractions_by_category(ATTRACTIONS: dict) -> dict:
+    """
+    Returns attractions in a given category from the ATTRACTIONS dictionary.
+
+    Args:
+        ATTRACTIONS (dict): Dictionary of attractions with category as key.
+
+    Returns:
+        dict: Attractions in the given category.
+    """
+    category = get_category_list(ATTRACTIONS)
+    return ATTRACTIONS.get(category, {})
