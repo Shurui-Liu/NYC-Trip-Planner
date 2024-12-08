@@ -1,5 +1,6 @@
 """Takes inputs from user"""
 from view_helpers import attractions_name_to_id
+from attractions import ATTRACTIONS
 
 def get_max_daily_time() -> float:
     """
@@ -17,6 +18,28 @@ def get_max_daily_time() -> float:
             continue
         return max_daily_time_float
 
+"""
+Enter category:
+Display attractions in the category
+Enter attraction name
+
+Enter time to spend at the attraction
+"""
+
+def display_categories(ATTRACTIONS: dict) -> None:
+    pass
+
+def get_category() -> str:
+    pass
+
+def display_attractions_in_category(category: str, ATTRACTIONS: dict) -> None:
+    pass
+
+def get_attraction_name() -> str:
+    pass
+
+def get_time_to_spend() -> float:
+    pass
 
 def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
     """
