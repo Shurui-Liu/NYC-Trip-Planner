@@ -77,3 +77,34 @@ def place_name_to_id_through_api(name: str, api_key: str) -> str:
             raise ValueError(f"Error: Place does not exist: {name}")
     else:
         raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
+
+
+def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
+    """
+    Fetches the name of the place given the place_id. This is for 
+    starting and ending points, because they are not in the ATTRACTIONS dictionary.
+
+    Args:
+        place_id (str): The place_id of the attraction.
+        api_key (str): Google Places API key.
+
+    Returns:
+        str: Name of the place
+    """
+    url = "https://maps.googleapis.com/maps/api/place/details/json"
+    params = {
+        "place_id": place_id,
+        "fields": "name",
+        "key": api_key
+    }
+
+    response = requests.get(url, params=params)
+    
+    if response.status_code == 200:
+        data = response.json()
+        if data.get("result"):
+            return data["result"]["name"]
+        else:
+            raise ValueError(f"Error: Place ID not found: {place_id}")
+    else:
+        raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
