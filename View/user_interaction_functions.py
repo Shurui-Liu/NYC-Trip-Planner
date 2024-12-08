@@ -147,6 +147,22 @@ def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
     return attractions_info
 
 
+def get_starting_or_ending_name(PLACE_API) -> str:
+    """
+    Returns the name of the starting point
+    """
+    while True:
+        place_name = input("Enter the name of the starting point: ")
+        try :
+            # the place name can be converted to place_id
+            place_id = view_helpers.place_name_to_id_through_api(
+                place_name, PLACE_API)
+            return place_name 
+        except ValueError as e:
+            print("Place not found. Please enter a valid place name.")
+            continue
+    
+
 def display_trip_plan(trip_plan: list) -> None:
     """
     Displays the trip plan
