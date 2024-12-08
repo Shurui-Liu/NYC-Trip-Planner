@@ -36,13 +36,6 @@ def get_max_daily_time() -> float:
             continue
         return max_daily_time_float
 
-"""
-Enter category:
-Display attractions in the category
-Enter attraction name
-
-Enter time to spend at the attraction
-"""
 
 def display_categories(ATTRACTIONS: dict) -> None:
     """
@@ -92,20 +85,19 @@ def get_attraction_id(api_key) -> str:
         return attraction_id
     
 
-def get_time_to_spend() -> float:
-    pass
+def get_time_to_spend(max_daily_time) -> float:
+    """
+    Returns the time to spend at the attraction
 
-def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
+    Args:
+        max_daily_time (float): The maximum time a user can spend in a day, from input by user
     """
-    Returns a dictionary of attractions in form of {attraction_id: time_to_spend}
-    """
-    attractions_info = {}
     while True:
-        attraction_name = input("Enter the name of the attraction: ")
+        time_to_spend = input("Enter the time to spend at the attraction (in hours): ")
         try:
-            attraction_id = attractions_name_to_id(attraction_name, api_key)
-        except ValueError as e:
-            print(e)
+            time_to_spend_float = float(time_to_spend)
+        except ValueError:
+            print("Error: Please enter a valid number")
             continue
         time_to_spend = input("Enter the time to spend at the attraction (in hours): ")
         try:
@@ -116,7 +108,29 @@ def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
         if time_to_spend_float > max_daily_time:
             print("Error: Time to spend at an attraction cannot be more than the maximum daily time")
             continue
-        attractions_info[attraction_id] = time_to_spend_float
-        if input("Do you want to add more attractions? (y/n): ") == "n":
+        return time_to_spend_float
+    
+
+def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
+    """
+    Returns a dictionary of attractions in form of {attraction_id: time_to_spend}
+    
+    Enter category:
+    Display attractions in the category
+    Enter attraction name
+
+    Enter time to spend at the attraction
+
+    """
+    attractions_info = {}
+    while True:
+        display_categories(ATTRACTIONS)
+        category = get_category()
+        display_attractions_in_category(category, ATTRACTIONS)
+        attraction_id = get_attraction_id(api_key)
+        time_to_spend = get_time_to_spend(max_daily_time)
+        attractions_info[attraction_id] = time_to_spend
+        add_more = input("Do you want to add more attractions? (yes/no): ")
+        if add_more.lower() != "yes":
             break
-    pass
+    return attractions_info
