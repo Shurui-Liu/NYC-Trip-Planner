@@ -54,13 +54,43 @@ def display_categories(ATTRACTIONS: dict) -> None:
         print(f"  - {category}")
 
 def get_category() -> str:
-    pass
+    """
+    Returns the category of attractions
+    """
+    while True:
+        category = input("Enter the category of attractions you want to visit: ")
+        if category not in get_category_list(ATTRACTIONS):
+            print("Error: Please enter a valid category")
+            continue
+        return category
 
 def display_attractions_in_category(category: str, ATTRACTIONS: dict) -> None:
-    pass
+    """
+    Displays the attractions in the given category
+    """
+    attractions_by_category = get_attractions_by_category(ATTRACTIONS)
+    attractions = attractions_by_category[category]
+    print(f"Attractions in the category '{category}':")
+    for attraction in attractions:
+        print(f"  - {attraction}")
 
-def get_attraction_name() -> str:
-    pass
+
+def get_attraction_id(api_key) -> str:
+    """
+    Returns the place_id of the attraction
+    """
+    while True:
+        attraction_name = input("Enter the name of the attraction: ")
+        if attraction_name not in ATTRACTIONS:
+            print("Error: Please enter a valid attraction name")
+            continue
+        try:
+            attraction_id = attractions_name_to_id(attraction_name, api_key)
+        except ValueError as e:
+            print(e)
+            continue
+        return attraction_id
+    
 
 def get_time_to_spend() -> float:
     pass
