@@ -165,6 +165,7 @@ def path_planner_non_cycle(graph, places, starting_point, ending_point):
 
     optimized_path = two_opt(path)
     optimized_path = [places[i] for i in optimized_path]
+    # returns a list of place_ids
     return optimized_path
 
 if __name__ == "__main__":

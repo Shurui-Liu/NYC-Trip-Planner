@@ -85,7 +85,8 @@ def get_attraction_id(api_key) -> str:
             print("Error: Please enter a valid attraction name")
             continue
         try:
-            attraction_id = view_helpers.attractions_name_to_id(attraction_name, api_key)
+            attraction_id = view_helpers.attractions_name_to_id(
+                attraction_name, api_key)
         except ValueError as e:
             print(e)
             continue

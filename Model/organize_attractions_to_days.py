@@ -2,6 +2,8 @@
 This file splits the visits into each day, 
 to ensure the mimimum days required to visit all the attractions.
 """
+
+
 def create_dictionary_by_time_length(attractions_by_place_id: dict) -> dict:
     """
     This function creates a dictionary with place_id as key and time_length as value.
@@ -17,9 +19,11 @@ def create_dictionary_by_time_length(attractions_by_place_id: dict) -> dict:
     """
     attractions_by_time_length = {}
     for attraction_place_id in attractions_by_place_id.keys():
-        time_length = attractions_by_place_id.get(attraction_place_id).get("time_length")
+        time_length = attractions_by_place_id.get(
+            attraction_place_id).get("time_length")
         attractions_by_time_length[attraction_place_id] = time_length
     return attractions_by_time_length
+
 
 def create_new_day(day_attractions: list, day_time_left: list, max_day_time: float) -> None:
     """
@@ -33,7 +37,7 @@ def create_new_day(day_attractions: list, day_time_left: list, max_day_time: flo
             The maximum number of hours a user can spend in a day
     Returns:
         - None, modifies the day_attractions and day_time_left lists
-    
+
     Examples:
         >>> day_attractions = [['Attraction1'], ['Attraction2']]
         >>> day_time_left = [5.0, 3.0]
@@ -56,7 +60,8 @@ def create_new_day(day_attractions: list, day_time_left: list, max_day_time: flo
     day_attractions.append([])
     day_time_left.append(max_day_time)
 
-def add_attraction_to_day(attraction_id: str, attractions_by_place_id: dict, 
+
+def add_attraction_to_day(attraction_id: str, attractions_by_place_id: dict,
                           day_index: int, day_attractions: list, day_time_left: list) -> None:
     """
     Helper function for group_attractions_to_days that adds an attraction to a day.
@@ -78,7 +83,7 @@ def add_attraction_to_day(attraction_id: str, attractions_by_place_id: dict,
     day_time_left[day_index] -= attractions_by_place_id.get(attraction_id)
 
 
-def find_day_to_add_attraction(attraction_id: str, days_time_left: float, 
+def find_day_to_add_attraction(attraction_id: str, days_time_left: float,
                                attractions_by_time_length: dict):
     """
     This function finds the day to add the attraction to.
@@ -105,9 +110,9 @@ def find_day_to_add_attraction(attraction_id: str, days_time_left: float,
         if days_time_left[day_index] >= attractions_by_time_length.get(attraction_id):
             return day_index
         day_index += 1
-    return -1  
+    return -1
 
-    
+
 def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
     """
     This function groups the attractions into minimum number of days.
@@ -126,31 +131,37 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
     """
     if not attractions_by_time_length:
         return []
-    attractions_by_time_length_sorted = sorted(attractions_by_time_length.items(), key=lambda x: x[1], reverse=True)
-    day_attractions = [] # a list of lists, each list contains attractions for a day
-    day_time_left = [] # a list of time left in each day
-    day_index = 0 # the current day's index in day_attractions
+    attractions_by_time_length_sorted = sorted(
+        attractions_by_time_length.items(), key=lambda x: x[1], reverse=True)
+    day_attractions = []  # a list of lists, each list contains attractions for a day
+    day_time_left = []  # a list of time left in each day
+    day_index = 0  # the current day's index in day_attractions
     for attraction_id, time_length in attractions_by_time_length_sorted:
         # if the time length of any attraction exceeds the maximum day time
         if time_length > max_day_time:
-            raise ValueError("The time length of an attraction cannot exceed the maximum day time.")
+            raise ValueError(
+                "The time length of an attraction cannot exceed the maximum day time.")
         # if no day exists yet
         if day_attractions == []:
             # updates the day_attractions and day_time_left lists, to add 1 day.
             create_new_day(day_attractions, day_time_left, max_day_time)
-            add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
+            add_attraction_to_day(
+                attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
         else:
-            day_index = find_day_to_add_attraction(attraction_id, day_time_left, attractions_by_time_length)
+            day_index = find_day_to_add_attraction(
+                attraction_id, day_time_left, attractions_by_time_length)
             # if the new attraction can be added to an existing day:
             if day_index >= 0:
                 # add the attraction to the day
-                add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
+                add_attraction_to_day(
+                    attraction_id, attractions_by_time_length_sorted, day_index, day_attractions, day_time_left)
             else:
                 create_new_day(day_attractions, day_time_left, max_day_time)
                 day_index += 1
-                add_attraction_to_day(attraction_id, attractions_by_time_length_sorted, 
+                add_attraction_to_day(attraction_id, attractions_by_time_length_sorted,
                                       day_index, day_attractions, day_time_left)
     return day_attractions
+
 
 if __name__ == "__main__":
     import doctest

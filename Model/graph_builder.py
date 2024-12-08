@@ -7,6 +7,7 @@ Representation: Adjacency Matrix
 
 from functions import calculate_distance
 
+
 def create_graph(places: list) -> list:
     """
     Creates a graph with starting point, ending point and attractions

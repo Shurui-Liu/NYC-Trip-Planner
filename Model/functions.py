@@ -3,9 +3,10 @@ import googlemaps
 
 # Google Maps API key
 api_key = "YOUR_API_KEY"
- 
+
 # Initialize the Google Maps client
 gmaps = googlemaps.Client(key=api_key)
+
 
 def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     """
@@ -55,6 +56,7 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
             return f"Error: Element status is {element['status']}."
     except (IndexError, KeyError) as e:
         return f"Error: Issue with API response. Details: {e}"
+
 
 def get_category_list(ATTRACTIONS: dict) -> list:
     """
