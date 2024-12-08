@@ -1,5 +1,6 @@
 """Takes inputs from user"""
 from view_helpers import attractions_name_to_id
+from Model.functions import get_category_list, get_attractions_by_category
 from attractions import ATTRACTIONS
 
 def display_welcome_message() -> None:
@@ -44,7 +45,13 @@ Enter time to spend at the attraction
 """
 
 def display_categories(ATTRACTIONS: dict) -> None:
-    pass
+    """
+    Displays the categories of attractions
+    """
+    categories = get_category_list(ATTRACTIONS)
+    print("Categories of attractions:")
+    for category in categories:
+        print(f"  - {category}")
 
 def get_category() -> str:
     pass
