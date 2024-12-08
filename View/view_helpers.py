@@ -30,3 +30,19 @@ def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
             raise ValueError(f"Error: Place does not exist: {attraction_name}")
     else:
         raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
+    
+def attractions_id_to_name(place_id: str, attractions: dict) -> str:
+    """
+    Returns the name of the attraction given the place_id.
+
+    Args:
+        place_id (str): The place_id of the attraction.
+        attractions (dict): Dictionary of attractions with place_id as key.
+
+    Returns:
+        str: Name of the attraction.
+    """
+    for place_id in attractions.keys():
+        if attractions[place_id] == place_id:
+            return attractions[place_id]["name"]
+    raise ValueError(f"Error: Place ID not found: {place_id}")
