@@ -157,8 +157,11 @@ def display_trip_plan(trip_plan: list) -> None:
     for place_id in trip_plan:
         # if place_id represents an attraction:
         if place_id in ATTRACTIONS:
-            attraction_name = attractions_id_to_name(place_id, ATTRACTIONS)
+            attraction_name = view_helpers.attractions_id_to_name(
+                place_id, ATTRACTIONS)
             print(f"  - {attraction_name}")
         # if place_id represents a starting or ending point:
         else:
-            place_name = attractions_id_to_name(place_id, ATTRACTIONS)
+            place_name = view_helpers.attractions_id_to_name(
+                place_id, ATTRACTIONS)
+            print(f"  - {place_name}")
