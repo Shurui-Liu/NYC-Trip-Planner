@@ -181,15 +181,15 @@ def get_starting_and_ending_names(PLACES_API) -> str:
         ending_name = get_starting_or_ending_name()
     return starting_name, ending_name
 
-def display_trip_plan(trip_plan: list) -> None:
+def display_trip_plan_for_day(trip_plan_for_day: list) -> None:
     """
     Displays the trip plan
 
     Args:
-        trip_plan (list): List place_ids of attractions in the order to visit
+        trip_plan_for_day (list): List place_ids of attractions in the order to visit
     """
-    print("Trip Plan:")
-    for place_id in trip_plan:
+    print("Trip Plan for day:")
+    for place_id in trip_plan_for_day:
         # if place_id represents an attraction:
         if place_id in ATTRACTIONS:
             attraction_name = view_helpers.attractions_id_to_name(
