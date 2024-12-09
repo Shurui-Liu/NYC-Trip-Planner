@@ -18,10 +18,10 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     Examples:
         >>> import googlemaps
         >>> gmaps = googlemaps.Client(key="AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo")
-        >>> origin = "ChIJN1t_tDeuEmsRUsoyG83frY4"
-        >>> destination = 'ChIJQx4neN1zhlQRdHFbwLLpxeM'
+        >>> origin = 'place_id:ChIJ4zGFAZpYwokRGUGph3Mf37k'
+        >>> destination = 'place_id:ChIJaXQRs6lZwokRY6EFpJnhNNE'
         >>> calculate_distance(gmaps, origin, destination, mode="driving", unit="km")
-        2.8
+        2.75
     """
     # Validate mode input
     valid_modes = ["driving", "walking", "bicycling", "transit"]
@@ -30,8 +30,8 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
 
     # Call the Distance Matrix API
     try:
-        result = gmaps.distance_matrix(origins=origin,
-                                       destinations=destination,
+        result = gmaps.distance_matrix(origins="place_id"+origin,
+                                       destinations="place_id"+destination,
                                        mode=mode,
                                        units='metric')
     except Exception as e:
