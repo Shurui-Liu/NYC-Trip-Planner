@@ -12,7 +12,11 @@ def get_category_list(ATTRACTIONS: dict) -> list:
     Returns:
         list: List of unique categories.
     """
-    return list(ATTRACTIONS.keys())
+    category_list = []
+    for place_info in  ATTRACTIONS.values():
+        if place_info.get("category") not in category_list:
+            category_list.append(place_info.get("category"))
+    return category_list
 
 
 def get_attractions_by_category(ATTRACTIONS: dict) -> dict:
