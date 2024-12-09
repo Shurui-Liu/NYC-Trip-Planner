@@ -4,27 +4,6 @@ to ensure the mimimum days required to visit all the attractions.
 """
 
 
-def create_dictionary_by_time_length(attractions_by_place_id: dict) -> dict:
-    """
-    This function creates a dictionary with place_id as key and time_length as value.
-    Args:
-        - attractions_by_place_id (dict): List of attractions to visit, by place_id
-    Returns:
-        - attractions_by_time_spend (dict): Dictionary with place_id as key and time_length as value
-    Examples:
-    >>> create_dictionary_by_time_length({"num_1": {"name": "Statue of Liberty", "time_length": 2}})
-    {'num_1': 2}
-    >>> create_dictionary_by_time_length({"num_1": {"name": "Statue of Liberty", "time_length": 2}, "num_2": {"name": "Central Park", "time_length": 3}})
-    {'num_1': 2, 'num_2': 3}
-    """
-    attractions_by_time_length = {}
-    for attraction_place_id in attractions_by_place_id.keys():
-        time_length = attractions_by_place_id.get(
-            attraction_place_id).get("time_length")
-        attractions_by_time_length[attraction_place_id] = time_length
-    return attractions_by_time_length
-
-
 def create_new_day(day_attractions: list, day_time_left: list, max_day_time: float) -> None:
     """
     Helper function for group_attractions_to_days that creates a new day.
@@ -113,7 +92,7 @@ def find_day_to_add_attraction(attraction_id: str, days_time_left: float,
     return -1
 
 
-def group_attractions_to_days(max_day_time, attractions_by_time_length: dict):
+def group_attractions_to_days(max_day_time, attractions_by_time_length: dict) -> list:
     """
     This function groups the attractions into minimum number of days.
     This function adopts the greedy approach. Otherwise, DP would require O(4^n) time complexity.
