@@ -99,19 +99,17 @@ def get_time_to_spend(max_daily_time) -> float:
 
     Args:
         max_daily_time (float): The maximum time a user can spend in a day, from input by user
+    
+    Returns:
+        float: The time to spend at the attraction
     """
     while True:
         time_to_spend = input(
             "Enter the time to spend at the attraction (in hours): ")
+        print("Successfully entered time to spend at the attraction ")
         try:
             time_to_spend_float = float(time_to_spend)
-        except ValueError:
-            print("Error: Please enter a valid number")
-            continue
-        time_to_spend = input(
-            "Enter the time to spend at the attraction (in hours): ")
-        try:
-            time_to_spend_float = float(time_to_spend)
+            print("Successfully converted time to spend at the attraction to float")
         except ValueError:
             print("Error: Please enter a valid number")
             continue
