@@ -160,11 +160,11 @@ def get_starting_or_ending_name(PLACE_API) -> str:
             print("Place not found. Please enter a valid place name.")
             continue
 
-def get_starting_and_ending_names() -> str:
+def get_starting_and_ending_names(PLACES_API) -> str:
     """
     Returns the name of the starting and ending points
     """
-    starting_name = get_starting_or_ending_name() 
+    starting_name = get_starting_or_ending_name(PLACES_API) 
     def get_start_end_same():
         while True:
             start_end_same = input("Do you want to end at the same place? (yes/no): ")

@@ -25,7 +25,7 @@ def main():
     attractions_info = uif.get_attractions_dictionary(PLACES_API, max_daily_time)
 
     # Get user input: starting_name, ending_name
-    starting_name, ending_name = uif.get_starting_and_ending_names()
+    starting_name, ending_name = uif.get_starting_and_ending_names(PLACES_API)
 
     # Get place_ids for starting and ending points
     starting_id = vh.place_name_to_id_through_api(starting_name, PLACES_API)
