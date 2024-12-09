@@ -1,12 +1,4 @@
 """This module contains functions that are used in data processing."""
-import googlemaps
-
-# Google Maps API key
-api_key = "AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo"
-
-# Initialize the Google Maps client
-gmaps = googlemaps.Client(key=api_key)
-
 
 def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     """

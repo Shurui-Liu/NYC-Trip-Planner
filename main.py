@@ -1,4 +1,5 @@
 """main function for the NYC Trip Planner"""
+import googlemaps
 
 PLACES_API = 'AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo'
 
@@ -16,6 +17,10 @@ def main():
     4. Plan the trip using the graph -> optimized_path (a list of place_ids)
     5. Display the trip plan
     """
+    
+    # Initialize the Google Maps client
+    gmaps = googlemaps.Client(key=PLACES_API)
+
     # Get user input: max_daily_time, 
     # maximum time spent traveling in a day
     max_daily_time = uif.get_max_daily_time()
@@ -35,7 +40,7 @@ def main():
     places = [starting_id] + list(attractions_info.keys()) + [ending_id]
 
     # Build a graph 
-    graph = graph_builder.create_graph(places)
+    graph = graph_builder.create_graph(gmaps, places)
 
     # Plan the trip
     if starting_id == ending_id:
