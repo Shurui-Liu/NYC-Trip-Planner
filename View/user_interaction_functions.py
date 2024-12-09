@@ -1,6 +1,7 @@
 """Takes inputs from user"""
-from View import view_helpers
+from . import view_helpers
 from Model.functions import get_category_list, get_attractions_by_category
+from Model import functions
 from attractions import ATTRACTIONS
 
 
@@ -45,7 +46,7 @@ def display_categories(ATTRACTIONS: dict) -> None:
     """
     Displays the categories of attractions
     """
-    categories = get_category_list(ATTRACTIONS)
+    categories = view_helpers.get_category_list(ATTRACTIONS)
     print("Categories of attractions:")
     for category in categories:
         print(f"  - {category}")
@@ -58,7 +59,7 @@ def get_category() -> str:
     while True:
         category = input(
             "Enter the category of attractions you want to visit: ")
-        if category not in get_category_list(ATTRACTIONS):
+        if category not in view_helpers.get_category_list(ATTRACTIONS):
             print("Error: Please enter a valid category")
             continue
         return category
@@ -68,7 +69,7 @@ def display_attractions_in_category(category: str, ATTRACTIONS: dict) -> None:
     """
     Displays the attractions in the given category
     """
-    attractions_by_category = get_attractions_by_category(ATTRACTIONS)
+    attractions_by_category = functions.get_attractions_by_category(ATTRACTIONS)
     attractions = attractions_by_category[category]
     print(f"Attractions in the category '{category}':")
     for attraction in attractions:
