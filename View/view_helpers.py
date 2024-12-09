@@ -1,6 +1,34 @@
 """Helper functions for views."""
 import requests
 
+
+def get_category_list(ATTRACTIONS: dict) -> list:
+    """
+    Returns a list of unique categories from the ATTRACTIONS dictionary.
+
+    Args:
+        ATTRACTIONS (dict): Dictionary of attractions with category as key.
+
+    Returns:
+        list: List of unique categories.
+    """
+    return list(ATTRACTIONS.keys())
+
+
+def get_attractions_by_category(ATTRACTIONS: dict) -> dict:
+    """
+    Returns attractions in a given category from the ATTRACTIONS dictionary.
+
+    Args:
+        ATTRACTIONS (dict): Dictionary of attractions with category as key.
+
+    Returns:
+        dict: Attractions in the given category.
+    """
+    category = get_category_list(ATTRACTIONS)
+    return ATTRACTIONS.get(category, {})
+
+
 def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
     """
     Fetches the Google Places ID for a given attraction name.
@@ -8,7 +36,7 @@ def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
     Args:
         attraction_name (str): Name of the attraction.
         api_key (str): Your Google Places API key.
-    
+
     Returns:
         str: Attraction ID (place_id) from Google Places API, or 'Not Found' if unavailable.
     """
@@ -21,7 +49,7 @@ def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
     }
 
     response = requests.get(url, params=params)
-    
+
     if response.status_code == 200:
         data = response.json()
         if data.get("candidates"):
@@ -29,8 +57,10 @@ def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
         else:
             raise ValueError(f"Error: Place does not exist: {attraction_name}")
     else:
-        raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
-    
+        raise ValueError(f"Error: Unable to fetch data: {
+                         response.status_code}")
+
+
 def attractions_id_to_name(place_id: str, attractions: dict) -> str:
     """
     Returns the name of the attraction given the place_id.
@@ -46,6 +76,7 @@ def attractions_id_to_name(place_id: str, attractions: dict) -> str:
         if attractions[place_id] == place_id:
             return attractions[place_id]["name"]
     raise ValueError(f"Error: Place ID not found: {place_id}")
+
 
 def place_name_to_id_through_api(name: str, api_key: str) -> str:
     """
@@ -68,7 +99,7 @@ def place_name_to_id_through_api(name: str, api_key: str) -> str:
     }
 
     response = requests.get(url, params=params)
-    
+
     if response.status_code == 200:
         data = response.json()
         if data.get("candidates"):
@@ -76,7 +107,8 @@ def place_name_to_id_through_api(name: str, api_key: str) -> str:
         else:
             raise ValueError(f"Error: Place does not exist: {name}")
     else:
-        raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
+        raise ValueError(f"Error: Unable to fetch data: {
+                         response.status_code}")
 
 
 def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
@@ -99,7 +131,7 @@ def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
     }
 
     response = requests.get(url, params=params)
-    
+
     if response.status_code == 200:
         data = response.json()
         if data.get("result"):
@@ -107,4 +139,5 @@ def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
         else:
             raise ValueError(f"Error: Place ID not found: {place_id}")
     else:
-        raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
+        raise ValueError(f"Error: Unable to fetch data: {
+                         response.status_code}")
