@@ -18,8 +18,8 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     Examples:
         >>> import googlemaps
         >>> gmaps = googlemaps.Client(key="AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo")
-        >>> origin = 'place_id:ChIJ4zGFAZpYwokRGUGph3Mf37k'
-        >>> destination = 'place_id:ChIJaXQRs6lZwokRY6EFpJnhNNE'
+        >>> origin = 'ChIJ4zGFAZpYwokRGUGph3Mf37k'
+        >>> destination = 'ChIJaXQRs6lZwokRY6EFpJnhNNE'
         >>> calculate_distance(gmaps, origin, destination, mode="driving", unit="km")
         2.75
     """
@@ -30,8 +30,8 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
 
     # Call the Distance Matrix API
     try:
-        result = gmaps.distance_matrix(origins="place_id"+origin,
-                                       destinations="place_id"+destination,
+        result = gmaps.distance_matrix(origins="place_id:"+origin,
+                                       destinations="place_id:"+destination,
                                        mode=mode,
                                        units='metric')
     except Exception as e:
@@ -56,8 +56,3 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
             return f"Error: Element status is {element['status']}."
     except (IndexError, KeyError) as e:
         return f"Error: Issue with API response. Details: {e}"
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
