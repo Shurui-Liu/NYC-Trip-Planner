@@ -30,7 +30,11 @@ def get_attractions_by_category(category: str, ATTRACTIONS: dict) -> dict:
     Returns:
         dict: Attractions in the given category.
     """
-    return ATTRACTIONS.get(category, {})
+    attractions_in_category = []
+    for place_id, place_info in ATTRACTIONS.items():
+        if place_info.get("category") == category:
+            attractions_in_category.append(place_info.get("name"))
+    return attractions_in_category
 
 
 def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
