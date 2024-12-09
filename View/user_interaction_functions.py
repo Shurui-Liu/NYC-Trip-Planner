@@ -1,5 +1,5 @@
 """Takes inputs from user"""
-import view_helpers
+from View import view_helpers
 from Model.functions import get_category_list, get_attractions_by_category
 from attractions import ATTRACTIONS
 

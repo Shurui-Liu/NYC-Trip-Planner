@@ -1,6 +1,6 @@
 """main function for the NYC Trip Planner"""
 
-PLACES_API = "AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo"
+PLACES_API = 'AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo'
 
 from attractions import ATTRACTIONS
 from View import user_interaction_functions as uif
@@ -45,3 +45,6 @@ def main():
 
     # Display the trip plan
     uif.display_trip_plan(optimized_path)
+
+if __name__ == "__main__":
+    main()

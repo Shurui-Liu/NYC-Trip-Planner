@@ -5,7 +5,7 @@ starting and ending points.
 Representation: Adjacency Matrix
 """
 
-from functions import calculate_distance
+from Model import functions
 
 
 def create_graph(places: list) -> list:
@@ -23,6 +23,6 @@ def create_graph(places: list) -> list:
     # time complexity: O(n^2)
     for i in range(len(places)):
         for j in range(i+1, len(places)):
-            adj_matrix[i][j] = calculate_distance(places[i], places[j])
+            adj_matrix[i][j] = functions.calculate_distance(places[i], places[j])
             adj_matrix[j][i] = adj_matrix[i][j]
     return adj_matrix
