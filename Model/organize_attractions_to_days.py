@@ -110,12 +110,14 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict) ->
     """
     if not attractions_by_time_length:
         return []
-    attractions_by_time_length_sorted = sorted(
-        attractions_by_time_length.items(), key=lambda x: x[1], reverse=True)
+    attractions_by_time_length_sorted = dict(sorted(
+        attractions_by_time_length.items(), key=lambda x: x[1], reverse=True))
+    print("type of attractions_by_time_length_sorted: ", type(attractions_by_time_length_sorted))
+    print("attractions_by_time_length_sorted: ", attractions_by_time_length_sorted)
     day_attractions = []  # a list of lists, each list contains attractions for a day
     day_time_left = []  # a list of time left in each day
     day_index = 0  # the current day's index in day_attractions
-    for attraction_id, time_length in attractions_by_time_length_sorted:
+    for attraction_id, time_length in attractions_by_time_length_sorted.items():
         # if the time length of any attraction exceeds the maximum day time
         if time_length > max_day_time:
             raise ValueError(
@@ -140,8 +142,3 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict) ->
                 add_attraction_to_day(attraction_id, attractions_by_time_length_sorted,
                                       day_index, day_attractions, day_time_left)
     return day_attractions
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
