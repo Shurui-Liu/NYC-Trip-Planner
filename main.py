@@ -47,20 +47,31 @@ def main():
     # a dictionary of attractions to visit by place_id: {place_id: time_length}
     attractions_organized_to_days = oad.group_attractions_to_days(max_daily_time, attractions_info)
 
-    # Build a graph for each day
-    graph = graph_builder.create_graph(gmaps, places_for_day)
-    print(graph)
+    # initialize the paths list for all days
+    paths = []
+    
+    for day in attractions_organized_to_days:
+        # Build a graph for each day
+        places_for_day = [starting_id] + day + [ending_id]
+        graph = graph_builder.create_graph(gmaps, places_for_day)
+        print("Graph: ", graph, "\n")
 
-    # Plan the trip
-    if starting_id == ending_id:
-        optimized_path = path_planner.path_planner_cycle(
-            graph, places, starting_id)
-    else:
-        optimized_path = path_planner.path_planner_non_cycle(
-            graph, places, starting_id, ending_id)
+        # Plan the trip for each day
+        if starting_id == ending_id:
+            optimized_path = path_planner.path_planner_cycle(
+                graph, places, starting_id)
+        else:
+            optimized_path = path_planner.path_planner_non_cycle(
+                graph, places, starting_id, ending_id)
+        paths.append(optimized_path)
 
     # Display the trip plan
-    uif.display_trip_plan(optimized_path)
+    ## Initiate day number from 1 
+    day = 1
+    for optimized_path in paths:
+        print(f"Day {day}:")
+        uif.display_trip_plan_for_day(optimized_path)
+        day += 1
 
 
 if __name__ == "__main__":
