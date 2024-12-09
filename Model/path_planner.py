@@ -48,6 +48,7 @@ def path_planner_cycle(graph, places, starting_point):
 
     # Map attractions to a bitmask for DP
     attraction_to_index = {node: i for i, node in enumerate(places)}
+    index_to_attraction = {i: node for node, i in attraction_to_index.items()}
     num_attractions = len(places)
 
     # DP table: dp[mask][i] = minimum cost to visit all nodes in `mask` ending at node `i`
@@ -63,7 +64,7 @@ def path_planner_cycle(graph, places, starting_point):
                         new_mask = mask | (1 << v)
                         dp[new_mask][v] = min(
                             dp[new_mask][v],
-                            dp[mask][u] + graph[places[u]][places[v]]
+                            dp[mask][u] + graph[attraction_to_index[places[u]]][attraction_to_index[places[v]]]
                         )
 
     # Find the minimum cost path that returns to the starting point
