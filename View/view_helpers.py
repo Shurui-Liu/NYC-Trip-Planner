@@ -19,7 +19,7 @@ def get_category_list(ATTRACTIONS: dict) -> list:
     return category_list
 
 
-def get_attractions_by_category(category: str, ATTRACTIONS: dict) -> dict:
+def get_attractions_by_category(category: str, ATTRACTIONS: dict) -> list:
     """
     Returns attractions in a given category from the ATTRACTIONS dictionary.
 
@@ -28,7 +28,7 @@ def get_attractions_by_category(category: str, ATTRACTIONS: dict) -> dict:
         ATTRACTIONS (dict): Dictionary of attractions with category as key.
 
     Returns:
-        dict: Attractions in the given category.
+        list: Attractions in the given category.
     """
     attractions_in_category = []
     for place_id, place_info in ATTRACTIONS.items():
