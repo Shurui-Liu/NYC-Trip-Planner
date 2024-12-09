@@ -149,3 +149,15 @@ def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
     else:
         raise ValueError(f"Error: Unable to fetch data: {
                          response.status_code}")
+
+def get_attractions_name_list(attractions: dict) -> list:
+    """
+    Returns a list of attraction names from the ATTRACTIONS dictionary.
+
+    Args:
+        attractions (dict): Dictionary of attractions with place_id as key.
+
+    Returns:
+        list: List of attraction names.
+    """
+    return [place_info.get("name") for place_info in attractions.values()]
