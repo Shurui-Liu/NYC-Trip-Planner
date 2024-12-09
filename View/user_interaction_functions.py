@@ -80,7 +80,8 @@ def get_attraction_id(api_key) -> str:
     """
     while True:
         attraction_name = input("Enter the name of the attraction: ")
-        if attraction_name not in ATTRACTIONS:
+        attractions_list = view_helpers.get_attractions_name_list(ATTRACTIONS)
+        if attraction_name not in attractions_list:
             print("Error: Please enter a valid attraction name")
             continue
         try:
