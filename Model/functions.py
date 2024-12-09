@@ -14,6 +14,14 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
     Returns:
         float: The distance between the two locations in the specified unit.
         str: Error message if the calculation fails.
+    
+    Examples:
+        >>> import googlemaps
+        >>> gmaps = googlemaps.Client(key="AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo")
+        >>> origin = "ChIJN1t_tDeuEmsRUsoyG83frY4"
+        >>> destination = 'ChIJQx4neN1zhlQRdHFbwLLpxeM'
+        >>> calculate_distance(gmaps, origin, destination, mode="driving", unit="km")
+        2.8
     """
     # Validate mode input
     valid_modes = ["driving", "walking", "bicycling", "transit"]
@@ -48,3 +56,8 @@ def calculate_distance(gmaps, origin, destination, mode="driving", unit="km"):
             return f"Error: Element status is {element['status']}."
     except (IndexError, KeyError) as e:
         return f"Error: Issue with API response. Details: {e}"
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
