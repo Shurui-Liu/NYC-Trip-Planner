@@ -1,7 +1,5 @@
 """Takes inputs from user"""
 from . import view_helpers
-from Model.functions import get_category_list, get_attractions_by_category
-from Model import functions
 from attractions import ATTRACTIONS
 
 
@@ -69,7 +67,7 @@ def display_attractions_in_category(category: str, ATTRACTIONS: dict) -> None:
     """
     Displays the attractions in the given category
     """
-    attractions_by_category = functions.get_attractions_by_category(ATTRACTIONS)
+    attractions_by_category = view_helpers.get_attractions_by_category(ATTRACTIONS)
     attractions = attractions_by_category[category]
     print(f"Attractions in the category '{category}':")
     for attraction in attractions:
