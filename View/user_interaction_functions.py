@@ -67,10 +67,10 @@ def display_attractions_in_category(category: str, ATTRACTIONS: dict) -> None:
     """
     Displays the attractions in the given category
     """
-    attractions_by_category = view_helpers.get_attractions_by_category(category, ATTRACTIONS)
-    attractions = attractions_by_category[category]
+    # list of attractions by each category
+    attractions_in_category = view_helpers.get_attractions_by_category(category, ATTRACTIONS)
     print(f"Attractions in the category '{category}':")
-    for attraction in attractions:
+    for attraction in attractions_in_category:
         print(f"  - {attraction}")
 
 
