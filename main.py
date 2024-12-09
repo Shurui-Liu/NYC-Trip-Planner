@@ -38,9 +38,11 @@ def main():
 
     # Combine all places (attractions + starting & ending points) to build a graph
     places = [starting_id] + list(attractions_info.keys()) + [ending_id]
+    print("Places: ", places)
 
     # Build a graph 
     graph = graph_builder.create_graph(gmaps, places)
+    print(graph)
 
     # Plan the trip
     if starting_id == ending_id:

@@ -12,7 +12,7 @@ def create_graph(gmaps, places: list) -> list:
     """
     Creates a graph with starting point, ending point and attractions
     Args: 
-        - places (list): a list of Starting point, Ending point, Attractions to visit
+        - places (list): a list of place_ids of Starting point, Ending point, Attractions to visit
     Returns:
         - Adjacency Matrix representing the graph
     """
