@@ -49,6 +49,12 @@ def path_planner_cycle(graph, places, starting_point):
         >>> starting_point = 'B'
         >>> path_planner_cycle(graph, places, starting_point)
         ['B', 'D', 'C', 'A', 'B']
+
+        >>> graph = [[0, 4786.447, 4786.987, 4786.411, 0.0], [4786.447, 0, 1.609, 10.95, 4810.501], [4786.987, 1.609, 0, 12.018, 4811.311], [4786.411, 10.95, 12.018, 0, 4808.963], [0.0, 4810.501, 4811.311, 4808.963, 0]]
+        >>> places = ['ChIJ0fci9hNawokRJVR9hdTAt80', 'ChIJaXQRs6lZwokRY6EFpJnhNNE', 'ChIJUW4vEPxYwokRW6o24DU0YIg', 'ChIJ-7A-bzFawokRw8mvHCzZsc4']
+        >>> starting_point = 'ChIJ0fci9hNawokRJVR9hdTAt80'
+        >>> path_planner_cycle(graph, places, starting_point)
+        ['ChIJ0fci9hNawokRJVR9hdTAt80', 'ChIJ-7A-bzFawokRw8mvHCzZsc4', 'ChIJaXQRs6lZwokRY6EFpJnhNNE', 'ChIJUW4vEPxYwokRW6o24DU0YIg', 'ChIJ0fci9hNawokRJVR9hdTAt80']
     """
     if len(places) == 1:
         return [starting_point]
