@@ -225,9 +225,9 @@ def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, s
         # if place_id represents a starting or ending point:
             # run for ChIJ8-JRXoxZwokRGPiQ9Ek0L84
             if place_id == starting_id:
-                print(f"  - Starting point: {starting_name}")
+                print(starting_name)
             elif place_id == ending_id:
-                print(f"  - Ending point: {ending_name}")
+                print(ending_name)
             else:
                 print("place_id: ", place_id)
                 raise ValueError("Error: Invalid place_id in trip plan: ", place_id)
