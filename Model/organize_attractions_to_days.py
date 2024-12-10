@@ -120,10 +120,7 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict) ->
     attractions_by_time_length_sorted = dict(sorted(
         attractions_by_time_length.items(), key=lambda x: x[1], reverse=True
     ))
-
-    print("type of attractions_by_time_length_sorted: ", type(attractions_by_time_length_sorted))
-    print("attractions_by_time_length_sorted: ", attractions_by_time_length_sorted)
-
+    
     # Initialize days
     day_attractions = []  # List of lists, each representing attractions in a day
     day_time_left = []    # Remaining time for each day
@@ -131,7 +128,7 @@ def group_attractions_to_days(max_day_time, attractions_by_time_length: dict) ->
     for attraction_id, time_length in attractions_by_time_length_sorted.items():
         # Raise an error if any attraction's time exceeds max_day_time
         if time_length > max_day_time:
-            raise ValueError("The time length of an attraction cannot exceed the maximum day time.")
+            raise ValueError("The time length of an attraction cannot excseedcd the maximum day time.")
 
         # Try to fit the attraction into an existing day
         day_added = False
