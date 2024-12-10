@@ -11,13 +11,6 @@ PLACES_API = 'AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo'
 
 
 def main():
-    """
-    1. Take user input -> max_daily_time, attractions_info, starting_name, ending_name
-    2. Get place_ids for starting_name and ending_name
-    3. Build a graph of places (attractions + starting & ending points) using the place_ids
-    4. Plan the trip using the graph -> optimized_path (a list of place_ids)
-    5. Display the trip plan
-    """
     try:
         # Initialize the Google Maps client
         gmaps = googlemaps.Client(key=PLACES_API)
@@ -45,7 +38,6 @@ def main():
         # a dictionary of attractions to visit by place_id: {place_id: time_length}
         attractions_organized_to_days = oad.group_attractions_to_days(
             max_daily_time, attractions_info)
-        print("Attractions organized to days: ", attractions_organized_to_days)
 
         # initialize the paths list for all days
         paths = []
@@ -54,7 +46,6 @@ def main():
                 # Build a graph for each day
                 places_for_day = [starting_id] + day
                 graph = graph_builder.create_graph(gmaps, places_for_day)
-                print("Graph: ", graph, "\n")
                 # Plan the trip for each day
                 optimized_path = path_planner.path_planner_cycle(
                     graph, places_for_day, starting_id)
