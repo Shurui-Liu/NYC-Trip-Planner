@@ -244,7 +244,6 @@ def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, s
             # run for ChIJ8-JRXoxZwokRGPiQ9Ek0L84
             if place_id == starting_id:
                 print(f"  - Starting point: {starting_name}")
-                return
             elif place_id == ending_id:
                 print(f"  - Ending point: {ending_name}")
             else:
