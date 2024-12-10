@@ -83,7 +83,7 @@ def main():
     day = 1
     for optimized_path in paths:
         print(f"Day {day}:")
-        uif.display_trip_plan_for_day(optimized_path)
+        uif.display_trip_plan_for_day(optimized_path, starting_id, ending_id, starting_name, ending_name)
         day += 1
 
 
