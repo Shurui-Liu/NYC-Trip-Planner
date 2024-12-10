@@ -181,12 +181,16 @@ def get_starting_and_ending_names(PLACES_API) -> str:
         ending_name = get_starting_or_ending_name()
     return starting_name, ending_name
 
-def display_trip_plan_for_day(trip_plan_for_day: list) -> None:
+def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, starting_name, ending_name) -> None:
     """
     Displays the trip plan
 
     Args:
         trip_plan_for_day (list): List place_ids of attractions in the order to visit
+        starting_id (str): The place_id of the starting location
+        ending_id (str): The place_id of the ending location
+        starting_name (str): The name of the starting location (input from user)
+        ending_name (str): The name of the ending location (input from user)
     """
     print("Trip Plan for day:")
     for place_id in trip_plan_for_day:
@@ -196,9 +200,10 @@ def display_trip_plan_for_day(trip_plan_for_day: list) -> None:
                 place_id, ATTRACTIONS)
             print(f"  - {attraction_name}")
         # if place_id represents a starting or ending point:
+        if place_id == starting_id:
+            print(f"  - Starting point: {starting_name}")
+        if place_id == ending_id:
+            print(f"  - Ending point: {ending_name}")
         else:
-            place_name = view_helpers.attractions_id_to_name(
-                place_id, ATTRACTIONS)
-            print(f"  - {place_name}")
-
+            raise ValueError("Error: Invalid place_id in trip plan")
 
