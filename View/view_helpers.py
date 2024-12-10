@@ -111,8 +111,7 @@ def place_name_to_id_through_api(name: str, api_key: str) -> str:
         else:
             raise ValueError(f"Error: Place does not exist: {name}")
     else:
-        raise ValueError(f"Error: Unable to fetch data: {
-                         response.status_code}")
+        raise ValueError(f"Error: Unable to fetch data: {response.status_code}")
 
 
 def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
