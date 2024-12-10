@@ -145,7 +145,7 @@ def get_attractions_dictionary(api_key: str, max_daily_time: float) -> dict:
     return attractions_info
 
 
-def get_starting_or_ending_name(PLACE_API) -> str:
+def get_starting_name(PLACE_API) -> str:
     """
     Returns the name of the starting point
     """
@@ -160,11 +160,27 @@ def get_starting_or_ending_name(PLACE_API) -> str:
             print("Place not found. Please enter a valid place name.")
             continue
 
-def get_starting_and_ending_names(PLACES_API) -> str:
+
+def get_ending_name(PLACE_API) -> str:
+    """
+    Returns the name of the ending point
+    """
+    while True:
+        place_name = input("Enter the name of the ending point: ")
+        try :
+            # the place name can be converted to place_id
+            place_id = view_helpers.place_name_to_id_through_api(
+                place_name, PLACE_API)
+            return place_name 
+        except ValueError as e:
+            print("Place not found. Please enter a valid place name.")
+            continue
+
+def get_starting_and_ending_names(PLACES_API) -> tuple:
     """
     Returns the name of the starting and ending points
     """
-    starting_name = get_starting_or_ending_name(PLACES_API) 
+    starting_name = get_starting_name(PLACES_API) 
     def get_start_end_same():
         while True:
             start_end_same = input("Do you want to end at the same place? (yes/no): ")
@@ -178,8 +194,9 @@ def get_starting_and_ending_names(PLACES_API) -> str:
     if get_start_end_same():
         ending_name = starting_name
     else:  
-        ending_name = get_starting_or_ending_name()
+        ending_name = get_ending_name(PLACES_API)
     return starting_name, ending_name
+
 
 def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, starting_name, ending_name, ATTRACTIONS) -> None:
     """
@@ -227,7 +244,8 @@ def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, s
             # run for ChIJ8-JRXoxZwokRGPiQ9Ek0L84
             if place_id == starting_id:
                 print(f"  - Starting point: {starting_name}")
-            if place_id == ending_id:
+                return
+            elif place_id == ending_id:
                 print(f"  - Ending point: {ending_name}")
             else:
                 print("place_id: ", place_id)
