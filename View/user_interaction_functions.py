@@ -86,7 +86,7 @@ def get_attraction_id(api_key) -> str:
             continue
         try:
             attraction_id = view_helpers.attractions_name_to_id(
-                attraction_name, api_key)
+                attraction_name, ATTRACTIONS)
         except ValueError as e:
             print(e)
             continue
@@ -191,25 +191,48 @@ def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, s
         ending_id (str): The place_id of the ending location
         starting_name (str): The name of the starting location (input from user)
         ending_name (str): The name of the ending location (input from user)
+        ATTRACTIONS (dict): Dictionary of attractions with place_id as key
+    
+    Examples:
+        >>> trip_plan_for_day = ['ChIJ0fci9hNawokRJVR9hdTAt80', 'ChIJmQJIxlVYwokRLgeuocVOGVU', 'ChIJnxlg1U5YwokR8T90UrZiIwI', 'ChIJ0fci9hNawokRJVR9hdTAt80']
+        >>> starting_id = 'ChIJ0fci9hNawokRJVR9hdTAt80'
+        >>> ending_id = 'ChIJ0fci9hNawokRJVR9hdTAt80'
+        >>> starting_name = 'Starting place'
+        >>> ending_name = 'Ending place'
+        >>> from attractions import ATTRACTIONS
+        >>> display_trip_plan_for_day(trip_plan_for_day, starting_id, ending_id, starting_name, ending_name, ATTRACTIONS)
+        Trip Plan for day:
+          - McSorley’s Old Ale House
+          - McSorley’s Old Ale House
     """
-    print("trip_plan_for_day list: ", trip_plan_for_day)
-    print("starting_id: ", starting_id)
-    print("ending_id: ", ending_id)
-    print("starting_name: ", starting_name)
-    print("ending_name: ", ending_name)
-    print("ATTRACTIONS id list: ", ATTRACTIONS.keys())
+    print("trip_plan_for_day list: ", trip_plan_for_day) ##
+    attractions_id_list = []
+    for i in ATTRACTIONS.keys():
+        attractions_id_list.append(i)
+    print("attractions_id_list: ", attractions_id_list)
     print("Trip Plan for day:")
     for place_id in trip_plan_for_day:
+        
         # if place_id represents an attraction:
-        if place_id in ATTRACTIONS.keys():#Should be a list!!!
+        if place_id in attractions_id_list:#Should be a list!!!
+            print(f"place_id: {place_id} in attractions_id_list")
             attraction_name = view_helpers.attractions_id_to_name(
                 place_id, ATTRACTIONS)
+            print("attraction id attempted to name.")
+            print("attraction id to name: ", attraction_name)
             print(f"  - {attraction_name}")
-        # if place_id represents a starting or ending point:
-        if place_id == starting_id:
-            print(f"  - Starting point: {starting_name}")
-        if place_id == ending_id:
-            print(f"  - Ending point: {ending_name}")
         else:
-            raise ValueError("Error: Invalid place_id in trip plan: {place_id}")
+        # if place_id represents a starting or ending point:
+            print(f"place_id: {place_id} not in attractions_id_list")##shouldn't
+            # run for ChIJ8-JRXoxZwokRGPiQ9Ek0L84
+            if place_id == starting_id:
+                print(f"  - Starting point: {starting_name}")
+            if place_id == ending_id:
+                print(f"  - Ending point: {ending_name}")
+            else:
+                print("place_id: ", place_id)
+                raise ValueError("Error: Invalid place_id in trip plan: ", place_id)
 
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

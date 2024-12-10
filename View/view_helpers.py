@@ -68,11 +68,18 @@ def attractions_id_to_name(place_id: str, attractions: dict) -> str:
 
     Returns:
         str: Name of the attraction.
+    
+    Examples:
+        >>> ATTRACTIONS = {'ChIJ8-JRXoxZwokRGPiQ9Ek0L84': {'name': 'SoHo', 'category': 'shopping','recommeded_time_length': 2, 'location': [40.723301, -74.002988]}, 'ChIJy3Wdl0hEwokReRGPPNxadFQ': {'name': 'Coney Island', 'category': 'park', 'recommeded_time_length': 3, 'location': [40.575545, -73.970701]}}
+        >>> attractions_id_to_name("ChIJ8-JRXoxZwokRGPiQ9Ek0L84", ATTRACTIONS)
+        'SoHo'
     """
-    for place_id in attractions.keys():
-        if attractions[place_id] == place_id:
-            return attractions[place_id]["name"]
-    raise ValueError(f"Error: Place ID not found: {place_id}")
+    # Check if the place_id is in the attractions dictionary
+    if place_id in attractions:
+        return attractions[place_id]["name"]
+    
+    # If the place_id is not found, raise an error
+    raise ValueError(f"Error: Place ID not found: ", place_id)
 
 
 def place_name_to_id_through_api(name: str, api_key: str) -> str:

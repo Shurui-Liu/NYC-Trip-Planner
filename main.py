@@ -85,7 +85,7 @@ def main():
         # Display the trip plan
         # Initiate day number from 1
         day = 1
-        for optimized_path in paths:
+        for optimized_path in paths: # optimized_path ok, paths ok
             print(f"Day {day}:")
             uif.display_trip_plan_for_day(
                 optimized_path, starting_id, ending_id, starting_name, ending_name, ATTRACTIONS)
