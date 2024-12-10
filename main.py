@@ -1,4 +1,8 @@
-"""main function for the NYC Trip Planner"""
+"""
+main function for the NYC Trip Planner
+Author: Shurui Liu
+Updated: Dec 2024
+"""
 from Model import organize_attractions_to_days as oad
 from Model import path_planner
 from Model import graph_builder
@@ -14,6 +18,8 @@ def main():
     try:
         # Initialize the Google Maps client
         gmaps = googlemaps.Client(key=PLACES_API)
+        # Display the welcome message
+        uif.display_welcome_message()
 
         # Get user input: max_daily_time,
         # maximum time spent traveling in a day
