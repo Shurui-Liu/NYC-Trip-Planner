@@ -48,9 +48,8 @@ def main():
 
     # initialize the paths list for all days
     paths = []
-    
-    for day in attractions_organized_to_days:
-        if starting_id == ending_id:
+    if starting_id == ending_id:
+        for day in attractions_organized_to_days:
             # Build a graph for each day
             places_for_day = [starting_id] + day
             graph = graph_builder.create_graph(gmaps, places_for_day)
@@ -58,15 +57,26 @@ def main():
             # Plan the trip for each day
             optimized_path = path_planner.path_planner_cycle(
                 graph, places_for_day, starting_id)
-        else:
-            # Build a graph for each day
-            places_for_day = [starting_id] + day + [ending_id]
-            graph = graph_builder.create_graph(gmaps, places_for_day)
-            print("Graph: ", graph, "\n")
-            # Plan the trip for each day
-            optimized_path = path_planner.path_planner_non_cycle(
+    else:
+        # Build a graph for each day
+        for day in attractions_organized_to_days:
+            # if the last day, add the ending point
+            if day == attractions_organized_to_days[-1]:
+                places_for_day = [starting_id] + day + [ending_id]
+                graph = graph_builder.create_graph(gmaps, places_for_day)
+                print("Graph: ", graph, "\n")
+                # Plan the trip for each day
+                optimized_path = path_planner.path_planner_non_cycle(
                 graph, places, starting_id, ending_id)
-        paths.append(optimized_path)
+                paths.append(optimized_path)
+            else:
+                # if not the last day, do not add the ending point
+                places_for_day = [starting_id] + day
+                graph = graph_builder.create_graph(gmaps, places_for_day)
+                print("Graph: ", graph, "\n")
+                # Plan the trip for each day
+                optimized_path = path_planner.path_planner_cycle(
+                    graph, places_for_day, starting_id)
 
     # Display the trip plan
     ## Initiate day number from 1 
