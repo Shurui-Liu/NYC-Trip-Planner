@@ -86,7 +86,7 @@ def get_attraction_id(api_key) -> str:
             continue
         try:
             attraction_id = view_helpers.attractions_name_to_id(
-                attraction_name, api_key)
+                attraction_name, ATTRACTIONS)
         except ValueError as e:
             print(e)
             continue
@@ -221,14 +221,17 @@ def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, s
             print("attraction id attempted to name.")
             print("attraction id to name: ", attraction_name)
             print(f"  - {attraction_name}")
-        # if place_id represents a starting or ending point:
-        print(f"place_id: {place_id} not in attractions_id_list")
-        if place_id == starting_id:
-            print(f"  - Starting point: {starting_name}")
-        if place_id == ending_id:
-            print(f"  - Ending point: {ending_name}")
         else:
-            raise ValueError("Error: Invalid place_id in trip plan: {place_id}")
+        # if place_id represents a starting or ending point:
+            print(f"place_id: {place_id} not in attractions_id_list")##shouldn't
+            # run for ChIJ8-JRXoxZwokRGPiQ9Ek0L84
+            if place_id == starting_id:
+                print(f"  - Starting point: {starting_name}")
+            if place_id == ending_id:
+                print(f"  - Ending point: {ending_name}")
+            else:
+                print("place_id: ", place_id)
+                raise ValueError("Error: Invalid place_id in trip plan: ", place_id)
 
 if __name__ == "__main__":
     import doctest
