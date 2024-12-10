@@ -40,7 +40,6 @@ def main():
 
         # Combine all places (attractions + starting & ending points) to build a graph
         places = [starting_id] + list(attractions_info.keys()) + [ending_id]
-        print("Places: ", places)
 
         # Organize the attractions to multiple days if needed
         # a dictionary of attractions to visit by place_id: {place_id: time_length}
@@ -65,20 +64,16 @@ def main():
             for day in attractions_organized_to_days:
                 # if the last day, add the ending point
                 if day == attractions_organized_to_days[-1]:
-                    print("This is the last day")
                     places_for_day = [starting_id] + day + [ending_id]
                     graph = graph_builder.create_graph(gmaps, places_for_day)
-                    print("Graph: ", graph, "\n")
                     # Plan the trip for each day
                     optimized_path = path_planner.path_planner_non_cycle(
-                        graph, places_for_day, starting_id, ending_id)###!!!!
-                    print("For last day, Optimized path: ", optimized_path)
+                        graph, places_for_day, starting_id, ending_id)
                     paths.append(optimized_path)
                 else:
                     # if not the last day, do not add the ending point
                     places_for_day = [starting_id] + day
                     graph = graph_builder.create_graph(gmaps, places_for_day)
-                    print("Graph: ", graph, "\n")
                     # Plan the trip for each day
                     optimized_path = path_planner.path_planner_cycle(
                         graph, places_for_day, starting_id)

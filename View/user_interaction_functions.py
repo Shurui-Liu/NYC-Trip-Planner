@@ -209,38 +209,20 @@ def display_trip_plan_for_day(trip_plan_for_day: list, starting_id, ending_id, s
         starting_name (str): The name of the starting location (input from user)
         ending_name (str): The name of the ending location (input from user)
         ATTRACTIONS (dict): Dictionary of attractions with place_id as key
-    
-    Examples:
-        >>> trip_plan_for_day = ['ChIJ0fci9hNawokRJVR9hdTAt80', 'ChIJmQJIxlVYwokRLgeuocVOGVU', 'ChIJnxlg1U5YwokR8T90UrZiIwI', 'ChIJ0fci9hNawokRJVR9hdTAt80']
-        >>> starting_id = 'ChIJ0fci9hNawokRJVR9hdTAt80'
-        >>> ending_id = 'ChIJ0fci9hNawokRJVR9hdTAt80'
-        >>> starting_name = 'Starting place'
-        >>> ending_name = 'Ending place'
-        >>> from attractions import ATTRACTIONS
-        >>> display_trip_plan_for_day(trip_plan_for_day, starting_id, ending_id, starting_name, ending_name, ATTRACTIONS)
-        Trip Plan for day:
-          - McSorley’s Old Ale House
-          - McSorley’s Old Ale House
+
     """
-    print("trip_plan_for_day list: ", trip_plan_for_day) ##
     attractions_id_list = []
     for i in ATTRACTIONS.keys():
         attractions_id_list.append(i)
-    print("attractions_id_list: ", attractions_id_list)
     print("Trip Plan for day:")
     for place_id in trip_plan_for_day:
-        
         # if place_id represents an attraction:
         if place_id in attractions_id_list:#Should be a list!!!
-            print(f"place_id: {place_id} in attractions_id_list")
             attraction_name = view_helpers.attractions_id_to_name(
                 place_id, ATTRACTIONS)
-            print("attraction id attempted to name.")
-            print("attraction id to name: ", attraction_name)
             print(f"  - {attraction_name}")
         else:
         # if place_id represents a starting or ending point:
-            print(f"place_id: {place_id} not in attractions_id_list")##shouldn't
             # run for ChIJ8-JRXoxZwokRGPiQ9Ek0L84
             if place_id == starting_id:
                 print(f"  - Starting point: {starting_name}")
