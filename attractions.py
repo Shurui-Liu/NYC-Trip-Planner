@@ -97,7 +97,7 @@ ATTRACTIONS = {
         'recommeded_time_length': 1.5, 
         'location': [40.712742, -74.013382]
     }, 'ChIJT_bvPbRZwokRIG-80uAcj3w': {
-        'name': 'building', 
+        'name': 'Vessel', 
         'category': 'landmark',
         'recommeded_time_length': 1, 
         'location': [40.75406, -74.00297]
