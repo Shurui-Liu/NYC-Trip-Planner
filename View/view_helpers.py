@@ -13,7 +13,7 @@ def get_category_list(ATTRACTIONS: dict) -> list:
         list: List of unique categories.
     """
     category_list = []
-    for place_info in  ATTRACTIONS.values():
+    for place_info in ATTRACTIONS.values():
         if place_info.get("category") not in category_list:
             category_list.append(place_info.get("category"))
     return category_list
@@ -130,6 +130,10 @@ def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
 
     Returns:
         str: Name of the place
+
+    Examples:
+        >>> place_id_to_name_through_api("ChIJGdCSd5tZwokRfYvMyzO7qtE", "AIzaSyDafDzPc6c8ODZ0LZMcOYJrlvw7jgZmDeo")
+        'McSorley’s Old Ale House'
     """
     url = "https://maps.googleapis.com/maps/api/place/details/json"
     params = {
@@ -145,11 +149,12 @@ def place_id_to_name_through_api(place_id: str, api_key: str) -> str:
         if data.get("result"):
             return data["result"]["name"]
         else:
-            raise ValueError(f"Error: Place ID not found: {place_id}")
+            raise ValueError("Error: Place ID not found: ", place_id)
     else:
-        raise ValueError(f"Error: Unable to fetch data: {
-                         response.status_code}")
-    
+        raise ValueError("Error: Unable to fetch data: ", 
+                         response.status_code)
+
+
 def get_attractions_name_list(attractions: dict) -> list:
     """
     Returns a list of attraction names from the ATTRACTIONS dictionary.
@@ -161,3 +166,8 @@ def get_attractions_name_list(attractions: dict) -> list:
         list: List of attraction names.
     """
     return [place_info.get("name") for place_info in attractions.values()]
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
