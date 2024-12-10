@@ -37,36 +37,25 @@ def get_attractions_by_category(category: str, ATTRACTIONS: dict) -> list:
     return attractions_in_category
 
 
-def attractions_name_to_id(attraction_name: str, api_key: str) -> str:
+def attractions_name_to_id(attraction_name: str, ATTRACTIONS: dict) -> str:
     """
-    Fetches the Google Places ID for a given attraction name.
+    Fetches the place_id of the attraction given the name.
 
     Args:
         attraction_name (str): Name of the attraction.
-        api_key (str): Your Google Places API key.
+        ATTRACTION (dict): Dictionary of attractions with place_id as key.
 
     Returns:
-        str: Attraction ID (place_id) from Google Places API, or 'Not Found' if unavailable.
+        str: Attraction ID (place_id).
     """
-    url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
-    params = {
-        "input": attraction_name,
-        "inputtype": "textquery",
-        "fields": "place_id",
-        "key": api_key
-    }
+    # Iterate through the ATTRACTIONS dictionary
+    for place_id, details in ATTRACTIONS.items():
+        # Check if the attraction name matches the input name (case-insensitive)
+        if details['name'].lower() == attraction_name.lower():
+            return place_id
 
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        if data.get("candidates"):
-            return data["candidates"][0]["place_id"]
-        else:
-            raise ValueError(f"Error: Place does not exist: {attraction_name}")
-    else:
-        raise ValueError(f"Error: Unable to fetch data: {
-                         response.status_code}")
+    # If the attraction name is not found, return a message or None
+    return None
 
 
 def attractions_id_to_name(place_id: str, attractions: dict) -> str:
