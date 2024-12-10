@@ -7,6 +7,7 @@ The system will plan an efficient trip plan for travelers, with a reasonable tim
 
 # Dependency
 - googlemaps
+- requests
 
 # Run the code
 In VS Code, navigate to the root folder of this file and run:
